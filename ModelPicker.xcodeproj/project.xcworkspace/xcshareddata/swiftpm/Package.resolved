@@ -1,0 +1,97 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SmartHitTest",
+        "repositoryURL": "https://github.com/maxxfrazer/ARKit-SmartHitTest",
+        "state": {
+          "branch": null,
+          "revision": "2b7145d55ca273f1ec0328783f87e93b9473f9f5",
+          "version": "2.0.0"
+        }
+      },
+      {
+        "package": "BigInt",
+        "repositoryURL": "https://github.com/attaswift/BigInt.git",
+        "state": {
+          "branch": null,
+          "revision": "0ed110f7555c34ff468e72e1686e59721f2b0da6",
+          "version": "5.3.0"
+        }
+      },
+      {
+        "package": "CryptoSwift",
+        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "12f2389aca4a07e0dd54c86ec23d0721ed88b8db",
+          "version": "1.4.3"
+        }
+      },
+      {
+        "package": "FocusEntity",
+        "repositoryURL": "https://github.com/maxxfrazer/FocusEntity",
+        "state": {
+          "branch": null,
+          "revision": "4b4840678c618c675a84960cf11c50a8aecc0104",
+          "version": "1.1.1"
+        }
+      },
+      {
+        "package": "FTAPIKit",
+        "repositoryURL": "https://github.com/futuredapp/FTAPIKit.git",
+        "state": {
+          "branch": null,
+          "revision": "cd03622cce9aabc9ad9542e6ff75bb73379db443",
+          "version": "1.5.0"
+        }
+      },
+      {
+        "package": "PromiseKit",
+        "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
+        "state": {
+          "branch": null,
+          "revision": "7b07b214dacecb22ca4b680531c7e981d52483f9",
+          "version": "6.16.3"
+        }
+      },
+      {
+        "package": "SDWebImage",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImage.git",
+        "state": {
+          "branch": null,
+          "revision": "2c53f531f1bedd253f55d85105409c28ed4a922c",
+          "version": "5.12.3"
+        }
+      },
+      {
+        "package": "SDWebImageSwiftUI",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImageSwiftUI.git",
+        "state": {
+          "branch": null,
+          "revision": "cd8625b7cf11a97698e180d28bb7d5d357196678",
+          "version": "2.0.2"
+        }
+      },
+      {
+        "package": "Starscream",
+        "repositoryURL": "https://github.com/daltoniam/Starscream.git",
+        "state": {
+          "branch": null,
+          "revision": "df8d82047f6654d8e4b655d1b1525c64e1059d21",
+          "version": "4.0.4"
+        }
+      },
+      {
+        "package": "Web3swift",
+        "repositoryURL": "https://github.com/skywinder/web3swift",
+        "state": {
+          "branch": null,
+          "revision": "ff538e874cf2f6ca0f5736bfd7deb89f4a0bd624",
+          "version": "2.5.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
