@@ -26,11 +26,12 @@ struct MainContentView: View {
                                         collectibles: $viewModel.collectibles)
                     }
 
-//                    if !viewModel.collectibles.isEmpty {
-//                        NavigationLink(destination: WalletView(collectibles: viewModel.collectibles, address: $viewModel.testAddress)) {
-//                            Text("Wallet detail")
-//                        }.hidden()
-//                    }
+                    if !viewModel.collectibles.isEmpty {
+                        NavigationLink(destination: WalletView(collectibles: viewModel.collectibles, address: $viewModel.testAddress)) {
+                            Text("Wallet detail")
+                        }
+                        // .hidden()
+                    }
                     Spacer()
                     .frame(height: 40)
                 }

@@ -6,18 +6,27 @@
 //
 
 import SwiftUI
+import Introspect
+import UIKit
 
 struct WalletView: View {
     var collectibles: [Collectible]
     @Binding var address: String
 
     var body: some View {
-        NavigationView {
-           // TextField("wallet address", text: $address)
+        VStack {
+            TextField("Insert wallet address", text: $address)
+                .frame(height: 50)
+                .padding([.leading, .trailing], 16)
+                .introspectTextField { textField in
+                    textField.clearButtonMode = .always
+                }
+
             List(collectibles, id: \.name) { collectible in
                 CollectibleRow(collectible: collectible)
             }
-        }.navigationTitle("Wallet NFTs")
+            .listStyle(.plain)
+        }.navigationTitle("NFT wallet")
     }
 }
 

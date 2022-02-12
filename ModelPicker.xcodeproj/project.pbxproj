@@ -22,12 +22,12 @@
 		7110F40D27B412C9000168C5 /* MoralisServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7110F40C27B412C9000168C5 /* MoralisServer.swift */; };
 		7110F40F27B5B1C1000168C5 /* Collectibles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7110F40E27B5B1C1000168C5 /* Collectibles.swift */; };
 		712003AF27B3DD0C00148E9E /* MainContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003AE27B3DD0C00148E9E /* MainContentViewModel.swift */; };
-		712003BB27B3E01200148E9E /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 712003BA27B3E01200148E9E /* web3swift */; };
 		712003BE27B3E7A000148E9E /* ModelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003BD27B3E7A000148E9E /* ModelPicker.swift */; };
 		712003C027B3EFEB00148E9E /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003BF27B3EFEB00148E9E /* WalletView.swift */; };
 		71D0501B27B66311003A8EF6 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 71D0501A27B66311003A8EF6 /* SDWebImageSwiftUI */; };
 		71D0501E27B713AC003A8EF6 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0501D27B713AC003A8EF6 /* Helpers.swift */; };
 		71D0502027B7195E003A8EF6 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0501F27B7195E003A8EF6 /* ARViewContainer.swift */; };
+		71D0502327B727AC003A8EF6 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 71D0502227B727AC003A8EF6 /* Introspect */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,8 +58,8 @@
 			files = (
 				71D0501B27B66311003A8EF6 /* SDWebImageSwiftUI in Frameworks */,
 				1C278C2927A1D859003FDED6 /* FocusEntity in Frameworks */,
+				71D0502327B727AC003A8EF6 /* Introspect in Frameworks */,
 				7110F40827B4127C000168C5 /* FTAPIKit in Frameworks */,
-				712003BB27B3E01200148E9E /* web3swift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,9 +149,9 @@
 			name = ModelPicker;
 			packageProductDependencies = (
 				1C278C2827A1D859003FDED6 /* FocusEntity */,
-				712003BA27B3E01200148E9E /* web3swift */,
 				7110F40727B4127C000168C5 /* FTAPIKit */,
 				71D0501A27B66311003A8EF6 /* SDWebImageSwiftUI */,
+				71D0502227B727AC003A8EF6 /* Introspect */,
 			);
 			productName = ModelPicker;
 			productReference = 1C278C0127A170D4003FDED6 /* NFT gallery.app */;
@@ -186,6 +186,7 @@
 				712003B927B3E01200148E9E /* XCRemoteSwiftPackageReference "web3swift" */,
 				7110F40627B4127C000168C5 /* XCRemoteSwiftPackageReference "FTAPIKit" */,
 				71D0501927B66311003A8EF6 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				71D0502127B727AC003A8EF6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 1C278C0227A170D4003FDED6 /* Products */;
 			projectDirPath = "";
@@ -491,6 +492,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		71D0502127B727AC003A8EF6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -504,15 +513,15 @@
 			package = 7110F40627B4127C000168C5 /* XCRemoteSwiftPackageReference "FTAPIKit" */;
 			productName = FTAPIKit;
 		};
-		712003BA27B3E01200148E9E /* web3swift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 712003B927B3E01200148E9E /* XCRemoteSwiftPackageReference "web3swift" */;
-			productName = web3swift;
-		};
 		71D0501A27B66311003A8EF6 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 71D0501927B66311003A8EF6 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		71D0502227B727AC003A8EF6 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71D0502127B727AC003A8EF6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
