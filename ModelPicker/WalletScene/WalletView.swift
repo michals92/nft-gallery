@@ -10,19 +10,18 @@ import Introspect
 import UIKit
 
 struct WalletView: View {
-    var collectibles: [Collectible]
-    @Binding var address: String
+    @ObservedObject var viewModel: MainContentViewModel
 
     var body: some View {
         VStack {
-            TextField("Insert wallet address", text: $address)
+            TextField("Insert wallet address", text: $viewModel.address)
                 .frame(height: 50)
                 .padding([.leading, .trailing], 16)
                 .introspectTextField { textField in
                     textField.clearButtonMode = .always
                 }
 
-            List(collectibles, id: \.name) { collectible in
+            List(viewModel.collectibles, id: \.name) { collectible in
                 CollectibleRow(collectible: collectible)
             }
             .listStyle(.plain)

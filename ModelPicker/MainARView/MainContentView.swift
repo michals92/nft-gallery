@@ -9,12 +9,12 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct MainContentView: View {
-    @StateObject private var viewModel = MainContentViewModel()
+    @ObservedObject private var viewModel = MainContentViewModel()
 
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
-                ARViewContainer(collectibleForPlacement: $viewModel.collectibleForPlacement)
+                ARViewContainer(collectibleForPlacement: $viewModel.collectibleForPlacement, isPlacementEnabled: $viewModel.isPlacementEnabled)
                 VStack {
                     if viewModel.isPlacementEnabled {
                         PlacementButtonsView(isPlacementEnabled: $viewModel.isPlacementEnabled,
@@ -27,7 +27,7 @@ struct MainContentView: View {
                     }
 
                     if !viewModel.collectibles.isEmpty {
-                        NavigationLink(destination: WalletView(collectibles: viewModel.collectibles, address: $viewModel.testAddress)) {
+                        NavigationLink(destination: WalletView(viewModel: viewModel)) {//WalletView(collectibles: $viewModel.collectibles, address: $viewModel.testAddress)) {
                             Text("Wallet detail")
                         }
                         // .hidden()
@@ -53,24 +53,22 @@ struct ModelPickerView: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 30) {
+            LazyHStack(spacing: 30) {
                 ForEach(collectibles, id: \.self) { collectible in
                     Button {
                         selectedModel = collectible
                         isPlacementEnabled = true
                     } label: {
-                        let dict = convertToDictionary(text: collectible.metadata ?? "")
-                        let imageString = dict?["image"] as? String
-                //        AnimatedImage(url: URL(string: imageString ?? "")!)
-                        Text(collectible.name ?? "")
-                            //.resizable()
-                         //   .placeholder { ProgressView() }
+                        AnimatedImage(url: collectible.getCollectibleURL())
+                            .resizable()
+                            .placeholder { ProgressView() }
                             .frame(width: 60, height: 60)
                     }
                 }
             }
             .padding(10)
         }
+        .frame(height: 80)
     }
 }
 

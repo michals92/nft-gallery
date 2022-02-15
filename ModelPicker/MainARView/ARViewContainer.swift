@@ -10,9 +10,11 @@ import ARKit
 import SwiftUI
 import FocusEntity
 import RealityKit
+import SDWebImageSwiftUI
 
 struct ARViewContainer: UIViewRepresentable {
     @Binding var collectibleForPlacement: Collectible?
+    @Binding var isPlacementEnabled: Bool
 
     func makeUIView(context: Context) -> ARView {
 
@@ -28,13 +30,15 @@ struct ARViewContainer: UIViewRepresentable {
     func updateUIView(_ uiView: ARView, context: Context) {
 
         if let collectible = collectibleForPlacement {
-            ImageDownloader.shared.downloadImage(with: collectible.entity(), completionHandler: { (image, _) in
+
+            let manager = ImageManager(url: collectible.getCollectibleURL())
+
+            manager.setOnSuccess { image, _, _ in
                 let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
 
                 do {
-                    let data = image!.pngData()
+                    let data = image.pngData()
                     try data?.write(to: fileURL)
-
                     let texture = try TextureResource.load(contentsOf: fileURL)
                     var material = SimpleMaterial()
                     material.baseColor = MaterialColorParameter.texture(texture)
@@ -51,8 +55,14 @@ struct ARViewContainer: UIViewRepresentable {
                 } catch {
                     print(error)
                 }
+            }
 
-            }, placeholderImage: UIImage(named: "placeholder_profile_pic"))
+            manager.load()
+        }
+
+        if let customARView = uiView as? CustomARView {
+            print("custom view enabled \(collectibleForPlacement != nil)")
+            customARView.focusSquare.isEnabled = isPlacementEnabled
         }
     }
 }
@@ -65,7 +75,6 @@ class CustomARView: ARView {
 
         focusSquare.viewDelegate = self
         focusSquare.setAutoUpdate(to: true)
-        focusSquare.isEnabled = false
 
         setupARView()
     }

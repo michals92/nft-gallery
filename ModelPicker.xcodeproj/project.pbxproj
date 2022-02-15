@@ -21,11 +21,11 @@
 		7110F40B27B412A3000168C5 /* MoralisApiAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7110F40A27B412A3000168C5 /* MoralisApiAdapter.swift */; };
 		7110F40D27B412C9000168C5 /* MoralisServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7110F40C27B412C9000168C5 /* MoralisServer.swift */; };
 		7110F40F27B5B1C1000168C5 /* Collectibles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7110F40E27B5B1C1000168C5 /* Collectibles.swift */; };
+		711D2D3C27B81944001FE3D3 /* WalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711D2D3B27B81944001FE3D3 /* WalletViewModel.swift */; };
 		712003AF27B3DD0C00148E9E /* MainContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003AE27B3DD0C00148E9E /* MainContentViewModel.swift */; };
 		712003BE27B3E7A000148E9E /* ModelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003BD27B3E7A000148E9E /* ModelPicker.swift */; };
 		712003C027B3EFEB00148E9E /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003BF27B3EFEB00148E9E /* WalletView.swift */; };
 		71D0501B27B66311003A8EF6 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 71D0501A27B66311003A8EF6 /* SDWebImageSwiftUI */; };
-		71D0501E27B713AC003A8EF6 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0501D27B713AC003A8EF6 /* Helpers.swift */; };
 		71D0502027B7195E003A8EF6 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0501F27B7195E003A8EF6 /* ARViewContainer.swift */; };
 		71D0502327B727AC003A8EF6 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 71D0502227B727AC003A8EF6 /* Introspect */; };
 /* End PBXBuildFile section */
@@ -44,10 +44,10 @@
 		7110F40A27B412A3000168C5 /* MoralisApiAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoralisApiAdapter.swift; sourceTree = "<group>"; };
 		7110F40C27B412C9000168C5 /* MoralisServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoralisServer.swift; sourceTree = "<group>"; };
 		7110F40E27B5B1C1000168C5 /* Collectibles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collectibles.swift; sourceTree = "<group>"; };
+		711D2D3B27B81944001FE3D3 /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
 		712003AE27B3DD0C00148E9E /* MainContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentViewModel.swift; sourceTree = "<group>"; };
 		712003BD27B3E7A000148E9E /* ModelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelPicker.swift; sourceTree = "<group>"; };
 		712003BF27B3EFEB00148E9E /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
-		71D0501D27B713AC003A8EF6 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		71D0501F27B7195E003A8EF6 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,10 +85,9 @@
 		1C278C0327A170D4003FDED6 /* ModelPicker */ = {
 			isa = PBXGroup;
 			children = (
-				71D0501D27B713AC003A8EF6 /* Helpers.swift */,
 				712003BD27B3E7A000148E9E /* ModelPicker.swift */,
 				71D0501C27B710BE003A8EF6 /* MainARView */,
-				712003BF27B3EFEB00148E9E /* WalletView.swift */,
+				711D2D3A27B81934001FE3D3 /* WalletScene */,
 				7110F40E27B5B1C1000168C5 /* Collectibles.swift */,
 				7110F40927B4128C000168C5 /* Service */,
 				1C278C0A27A170D5003FDED6 /* Assets.xcassets */,
@@ -118,6 +117,15 @@
 				7110F40A27B412A3000168C5 /* MoralisApiAdapter.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		711D2D3A27B81934001FE3D3 /* WalletScene */ = {
+			isa = PBXGroup;
+			children = (
+				712003BF27B3EFEB00148E9E /* WalletView.swift */,
+				711D2D3B27B81944001FE3D3 /* WalletViewModel.swift */,
+			);
+			path = WalletScene;
 			sourceTree = "<group>";
 		};
 		71D0501C27B710BE003A8EF6 /* MainARView */ = {
@@ -244,8 +252,8 @@
 				7110F40D27B412C9000168C5 /* MoralisServer.swift in Sources */,
 				712003BE27B3E7A000148E9E /* ModelPicker.swift in Sources */,
 				7110F40B27B412A3000168C5 /* MoralisApiAdapter.swift in Sources */,
-				71D0501E27B713AC003A8EF6 /* Helpers.swift in Sources */,
 				712003AF27B3DD0C00148E9E /* MainContentViewModel.swift in Sources */,
+				711D2D3C27B81944001FE3D3 /* WalletViewModel.swift in Sources */,
 				7110F40527B4120B000168C5 /* MoralisService.swift in Sources */,
 				7110F40F27B5B1C1000168C5 /* Collectibles.swift in Sources */,
 				712003C027B3EFEB00148E9E /* WalletView.swift in Sources */,

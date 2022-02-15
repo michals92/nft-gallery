@@ -16,17 +16,19 @@ final class MainContentViewModel: ObservableObject {
 
     @Published var hasWallet = false
     @Published var collectibles: [Collectible] = []
-    @Published var testAddress = "0x728f2548559e2aacae8b6b01fc39ff72771ff8be"
+    @Published var address = "0x728f2548559e2aacae8b6b01fc39ff72771ff8be"
 
     func getCollectibles() {
         let moralisService = MoralisCollectiblesService(apiAdapter: MoralisApiAdapter())
 
         // TODO: use real address
-        moralisService.collectibles(testAddress, chain: "eth", format: "decimal") { result in
+        moralisService.collectibles(address, chain: "eth", format: "decimal") { result in
             switch result {
             case .success(let collectibles):
                 self.collectibles = collectibles.result.filter({ collectible in
                     let dict = convertToDictionary(text: collectible.metadata ?? "")
+
+                    print(dict)
                     guard let image = dict?["image"] as? String else {
                         return false
                     }
