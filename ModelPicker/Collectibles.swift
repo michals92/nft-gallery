@@ -21,8 +21,10 @@ struct Collectible: Codable, Hashable {
     let tokenUri: String?
     let metadata: String?
 
-    func entity() -> String? {
+    func getCollectibleURL() -> URL? {
         let dict = convertToDictionary(text: metadata ?? "")
-        return dict?["image"] as? String
+        let urlString = dict?["image"] as? String
+        let urlStringWithoutIpfs = urlString?.replacingOccurrences(of: "ipfs://", with: "https://cloudflare-ipfs.com/ipfs/")
+        return URL(string: urlStringWithoutIpfs ?? "")
     }
 }
