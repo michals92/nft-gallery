@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import ARKit
+import RealityKit
 
 final class MainContentViewModel: ObservableObject {
     @Published var isPlacementEnabled = false
@@ -26,9 +26,7 @@ final class MainContentViewModel: ObservableObject {
             switch result {
             case .success(let collectibles):
                 self.collectibles = collectibles.result.filter({ collectible in
-                    let dict = convertToDictionary(text: collectible.metadata ?? "")
-
-                    print(dict)
+                    let dict = collectible.metadata?.convertToDictionary()
                     guard let image = dict?["image"] as? String else {
                         return false
                     }
@@ -39,16 +37,4 @@ final class MainContentViewModel: ObservableObject {
             }
         }
     }
-}
-
-// TODO: change to extension
-func convertToDictionary(text: String) -> [String: Any]? {
-    if let data = text.data(using: .utf8) {
-        do {
-            return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    return nil
 }

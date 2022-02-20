@@ -20,6 +20,7 @@
 		712003AF27B3DD0C00148E9E /* MainContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003AE27B3DD0C00148E9E /* MainContentViewModel.swift */; };
 		712003BE27B3E7A000148E9E /* ARgallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003BD27B3E7A000148E9E /* ARgallery.swift */; };
 		712003C027B3EFEB00148E9E /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003BF27B3EFEB00148E9E /* WalletView.swift */; };
+		7196DA7327C2E0C300C17D50 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7196DA7227C2E0C300C17D50 /* String+Extensions.swift */; };
 		71D0501B27B66311003A8EF6 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 71D0501A27B66311003A8EF6 /* SDWebImageSwiftUI */; };
 		71D0502027B7195E003A8EF6 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0501F27B7195E003A8EF6 /* ARViewContainer.swift */; };
 		71D0502327B727AC003A8EF6 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 71D0502227B727AC003A8EF6 /* Introspect */; };
@@ -38,6 +39,7 @@
 		712003AE27B3DD0C00148E9E /* MainContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentViewModel.swift; sourceTree = "<group>"; };
 		712003BD27B3E7A000148E9E /* ARgallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARgallery.swift; sourceTree = "<group>"; };
 		712003BF27B3EFEB00148E9E /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
+		7196DA7227C2E0C300C17D50 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		71D0501F27B7195E003A8EF6 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,6 +83,7 @@
 				7110F40E27B5B1C1000168C5 /* Collectibles.swift */,
 				7110F40927B4128C000168C5 /* Service */,
 				1C278C0A27A170D5003FDED6 /* Assets.xcassets */,
+				7196DA7427C2E0CE00C17D50 /* Extensions */,
 				1C278C0C27A170D5003FDED6 /* Preview Content */,
 			);
 			path = ARgallery;
@@ -111,6 +114,14 @@
 				711D2D3B27B81944001FE3D3 /* WalletViewModel.swift */,
 			);
 			path = WalletScene;
+			sourceTree = "<group>";
+		};
+		7196DA7427C2E0CE00C17D50 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7196DA7227C2E0C300C17D50 /* String+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		71D0501C27B710BE003A8EF6 /* MainARView */ = {
@@ -229,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C278C0727A170D4003FDED6 /* MainContentView.swift in Sources */,
+				7196DA7327C2E0C300C17D50 /* String+Extensions.swift in Sources */,
 				7110F40D27B412C9000168C5 /* MoralisServer.swift in Sources */,
 				712003BE27B3E7A000148E9E /* ARgallery.swift in Sources */,
 				7110F40B27B412A3000168C5 /* MoralisApiAdapter.swift in Sources */,
