@@ -10,13 +10,17 @@ import SDWebImageSwiftUI
 
 struct MainContentView: View {
     @ObservedObject private var viewModel = MainContentViewModel()
+    @State private var showingDetail = false
 
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
                 ARViewContainer(collectibleForPlacement: $viewModel.collectibleForPlacement, isPlacementEnabled: $viewModel.isPlacementEnabled)
+                    .edgesIgnoringSafeArea(.all)
                 VStack {
-                    if viewModel.isPlacementEnabled {
+                    if viewModel.address == "" {
+                        Text("Please import Wallet!")
+                    } else if viewModel.isPlacementEnabled {
                         PlacementButtonsView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                              selectedModel: $viewModel.selectedModel,
                                              modelConfirmedForPlacement: $viewModel.collectibleForPlacement)
@@ -25,22 +29,37 @@ struct MainContentView: View {
                                         selectedModel: $viewModel.selectedModel,
                                         collectibles: $viewModel.collectibles)
                     }
-
-                    if !viewModel.collectibles.isEmpty {
-                        NavigationLink(destination: WalletView(viewModel: viewModel)) {//WalletView(collectibles: $viewModel.collectibles, address: $viewModel.testAddress)) {
-                            Text("Wallet detail")
-                        }
-                        // .hidden()
-                    }
-                    Spacer()
-                    .frame(height: 40)
                 }
-                    .background(Color.black.opacity(0.5))
-            }.edgesIgnoringSafeArea([.bottom, .top])
+                .navigationBarHidden(true)
 
+                closeButton
+                    .padding(.trailing, 16)
+                    .edgesIgnoringSafeArea(.top)
+            }
         }
         .navigationBarHidden(true)
         .onAppear(perform: viewModel.getCollectibles)
+    }
+
+    var closeButton: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Button {
+                    showingDetail = true
+                } label: {
+                    VStack {
+                        Image(systemName: "person")
+                        Text("wallet")
+                            .font(Font.caption)
+                    }
+                }.sheet(isPresented: $showingDetail) {
+                    WalletView(viewModel: viewModel)
+                }
+            }
+            Spacer()
+        }
+        .padding(.top, 42)
     }
 }
 
@@ -82,7 +101,6 @@ struct PlacementButtonsView: View {
     var body: some View {
         HStack {
             Button(action: {
-                print("cross")
                 resetPlacementParameters()
             }, label: {
                 Image(systemName: "xmark")
@@ -94,7 +112,6 @@ struct PlacementButtonsView: View {
             })
 
             Button(action: {
-                print("check")
                 modelConfirmedForPlacement = selectedModel
                 resetPlacementParameters()
             }, label: {

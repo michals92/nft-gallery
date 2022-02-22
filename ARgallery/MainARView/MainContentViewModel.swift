@@ -16,12 +16,11 @@ final class MainContentViewModel: ObservableObject {
 
     @Published var hasWallet = false
     @Published var collectibles: [Collectible] = []
-    @Published var address = "0x728f2548559e2aacae8b6b01fc39ff72771ff8be"
+    @Published var address = UserDefaults.standard.string(forKey: "address")  ?? ""
 
     func getCollectibles() {
         let moralisService = MoralisCollectiblesService(apiAdapter: MoralisApiAdapter())
 
-        // TODO: use real address
         moralisService.collectibles(address, chain: "eth", format: "decimal") { result in
             switch result {
             case .success(let collectibles):
@@ -36,5 +35,9 @@ final class MainContentViewModel: ObservableObject {
                 print(error)
             }
         }
+    }
+
+    func saveAddress() {
+        UserDefaults.standard.set(address, forKey: "address")
     }
 }

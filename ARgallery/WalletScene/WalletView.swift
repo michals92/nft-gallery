@@ -11,15 +11,28 @@ import UIKit
 
 struct WalletView: View {
     @ObservedObject var viewModel: MainContentViewModel
+    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         VStack {
-            TextField("Insert wallet address", text: $viewModel.address)
-                .frame(height: 50)
-                .padding([.leading, .trailing], 16)
-                .introspectTextField { textField in
-                    textField.clearButtonMode = .always
-                }
+            HStack {
+                Button("Close") {
+                    presentationMode.wrappedValue.dismiss()
+                }.padding(.leading, 10)
+                TextField("Insert wallet address", text: $viewModel.address)
+                    .frame(height: 50)
+                    .padding([.leading, .trailing], 16)
+                    .introspectTextField { textField in
+                        textField.clearButtonMode = .always
+                    }
+                Button {
+                    print("load address")
+                    viewModel.getCollectibles()
+                    viewModel.saveAddress()
+                } label: {
+                    Text("Load")
+                }.padding(.trailing, 10)
+            }
 
             List(viewModel.collectibles, id: \.name) { collectible in
                 CollectibleRow(collectible: collectible)
