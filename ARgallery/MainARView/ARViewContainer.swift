@@ -6,11 +6,11 @@
 //
 
 import UIKit
-import ARKit
 import SwiftUI
 import FocusEntity
 import RealityKit
 import SDWebImageSwiftUI
+import ARKit
 
 struct ARViewContainer: UIViewRepresentable {
     @Binding var collectibleForPlacement: Collectible?
@@ -61,7 +61,6 @@ struct ARViewContainer: UIViewRepresentable {
         }
 
         if let customARView = uiView as? CustomARView {
-            print("custom view enabled \(collectibleForPlacement != nil)")
             customARView.focusSquare.isEnabled = isPlacementEnabled
         }
     }
@@ -87,6 +86,7 @@ class CustomARView: ARView {
         let config = ARWorldTrackingConfiguration()
         config.planeDetection = [.horizontal, .vertical]
         config.environmentTexturing = .automatic
+        config.frameSemantics.insert(.personSegmentationWithDepth)
 
         if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
             config.sceneReconstruction = .mesh
@@ -104,7 +104,7 @@ extension ARView: ARCoachingOverlayViewDelegate {
         coachingOverlay.session = self.session
         #endif
         coachingOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        coachingOverlay.goal = .horizontalPlane
+        coachingOverlay.goal = .tracking
         self.addSubview(coachingOverlay)
     }
 }
