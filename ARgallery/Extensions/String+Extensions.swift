@@ -14,6 +14,7 @@ extension String {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             } catch {
                 print(error.localizedDescription)
+                return nil
             }
         }
         return nil
