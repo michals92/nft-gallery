@@ -11,12 +11,15 @@ import RealityKit
 
 final class MainContentViewModel: ObservableObject {
     @Published var isPlacementEnabled = false
-    @Published var selectedModel: Collectible?
-    @Published var collectibleForPlacement: Collectible?
+    @Published var selectedModel: Data?
+    @Published var imageDataForPlacement: Data?
 
     @Published var hasWallet = false
     @Published var collectibles: [Collectible] = []
     @Published var address = UserDefaults.standard.string(forKey: "address")  ?? ""
+
+    // TODO: - fix image variable
+    var images: [Int: Data] = [:]
 
     func getCollectibles() {
         let moralisService = MoralisCollectiblesService(apiAdapter: MoralisApiAdapter())

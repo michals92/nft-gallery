@@ -13,8 +13,8 @@ import SDWebImageSwiftUI
 import ARKit
 
 struct ARViewContainer: UIViewRepresentable {
-    @Binding var collectibleForPlacement: Collectible?
     @Binding var isPlacementEnabled: Bool
+    @Binding var imageDataForPlacement: Data?
 
     func makeUIView(context: Context) -> ARView {
 
@@ -28,36 +28,26 @@ struct ARViewContainer: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: ARView, context: Context) {
+        if let textureImage = imageDataForPlacement {
+            let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
 
-        if let collectible = collectibleForPlacement {
+            do {
+                try textureImage.write(to: fileURL)
+                let texture = try TextureResource.load(contentsOf: fileURL)
+                var material = SimpleMaterial()
+                material.baseColor = MaterialColorParameter.texture(texture)
+                let modelEntity = ModelEntity(mesh: .generateBox(size: 0.3), materials: [material])
 
-            let manager = ImageManager(url: collectible.getCollectibleURL())
+                let anchorEntity = AnchorEntity(plane: .any)
+                anchorEntity.addChild(modelEntity.clone(recursive: true))
 
-            manager.setOnSuccess { image, _, _ in
-                let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+                uiView.scene.addAnchor(anchorEntity)
 
-                do {
-                    let data = image.pngData()
-                    try data?.write(to: fileURL)
-                    let texture = try TextureResource.load(contentsOf: fileURL)
-                    var material = SimpleMaterial()
-                    material.baseColor = MaterialColorParameter.texture(texture)
-                    let modelEntity = ModelEntity(mesh: .generateBox(size: 0.3), materials: [material])
+                imageDataForPlacement = nil
 
-                    let anchorEntity = AnchorEntity(plane: .any)
-                    anchorEntity.addChild(modelEntity.clone(recursive: true))
-
-                    uiView.scene.addAnchor(anchorEntity)
-
-                    DispatchQueue.main.async {
-                        collectibleForPlacement = nil
-                    }
-                } catch {
-                    print(error)
-                }
+            } catch {
+                print(error)
             }
-
-            manager.load()
         }
 
         if let customARView = uiView as? CustomARView {

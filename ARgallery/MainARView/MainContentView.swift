@@ -15,7 +15,7 @@ struct MainContentView: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
-                ARViewContainer(collectibleForPlacement: $viewModel.collectibleForPlacement, isPlacementEnabled: $viewModel.isPlacementEnabled)
+                ARViewContainer(isPlacementEnabled: $viewModel.isPlacementEnabled, imageDataForPlacement: $viewModel.imageDataForPlacement)
                     .edgesIgnoringSafeArea(.all)
                 VStack {
                     if viewModel.address == "" {
@@ -23,15 +23,14 @@ struct MainContentView: View {
                     } else if viewModel.isPlacementEnabled {
                         PlacementButtonsView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                              selectedModel: $viewModel.selectedModel,
-                                             modelConfirmedForPlacement: $viewModel.collectibleForPlacement)
+                                             modelConfirmedForPlacement: $viewModel.imageDataForPlacement)
                     } else {
                         ModelPickerView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                         selectedModel: $viewModel.selectedModel,
-                                        collectibles: $viewModel.collectibles)
+                                        collectibles: $viewModel.collectibles, viewModel: viewModel)
                     }
                 }
                 .navigationBarHidden(true)
-
                 closeButton
                     .padding(.trailing, 16)
                     .edgesIgnoringSafeArea(.top)
@@ -67,18 +66,24 @@ struct MainContentView: View {
 
 struct ModelPickerView: View {
     @Binding var isPlacementEnabled: Bool
-    @Binding var selectedModel: Collectible?
+    @Binding var selectedModel: Data?
     @Binding var collectibles: [Collectible]
+
+    @ObservedObject var viewModel: MainContentViewModel
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 30) {
-                ForEach(collectibles, id: \.self) { collectible in
+
+                ForEach(collectibles.indices, id: \.self) { index in
                     Button {
-                        selectedModel = collectible
+                        selectedModel = viewModel.images[index]
                         isPlacementEnabled = true
                     } label: {
-                        AnimatedImage(url: collectible.getCollectibleURL())
+                        AnimatedImage(url: collectibles[index].getCollectibleURL())
+                            .onSuccess(perform: { image, _, _ in
+                                viewModel.images[index] = image.pngData()
+                            })
                             .resizable()
                             .placeholder { ProgressView() }
                             .frame(width: 60, height: 60)
@@ -95,8 +100,8 @@ struct ModelPickerView: View {
 
 struct PlacementButtonsView: View {
     @Binding var isPlacementEnabled: Bool
-    @Binding var selectedModel: Collectible?
-    @Binding var modelConfirmedForPlacement: Collectible?
+    @Binding var selectedModel: Data?
+    @Binding var modelConfirmedForPlacement: Data?
 
     var body: some View {
         HStack {
