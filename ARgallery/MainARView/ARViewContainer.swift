@@ -13,7 +13,7 @@ import ARKit
 
 struct ARViewContainer: UIViewRepresentable {
     @Binding var isPlacementEnabled: Bool
-    @Binding var imageDataForPlacement: Data?
+    @Binding var collectibleForPlacement: Collectible?
 
     func makeUIView(context: Context) -> ARView {
 
@@ -27,30 +27,47 @@ struct ARViewContainer: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: ARView, context: Context) {
-        if let textureImage = imageDataForPlacement {
-            let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-
-            do {
-                try textureImage.write(to: fileURL)
-                let texture = try TextureResource.load(contentsOf: fileURL)
-                var material = SimpleMaterial()
-                material.baseColor = MaterialColorParameter.texture(texture)
-                let modelEntity = ModelEntity(mesh: .generateBox(size: 0.3), materials: [material])
-
-                let anchorEntity = AnchorEntity(plane: .any)
-                anchorEntity.addChild(modelEntity.clone(recursive: true))
-
-                uiView.scene.addAnchor(anchorEntity)
-
-                imageDataForPlacement = nil
-
-            } catch {
-                print(error)
-            }
+        if let url = collectibleForPlacement?.getCollectibleURL() {
+                downloadImage(from: url, view: uiView)
         }
 
         if let customARView = uiView as? CustomARView {
             customARView.focusSquare.isEnabled = isPlacementEnabled
+        }
+    }
+
+    private func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+
+    private func downloadImage(from url: URL, view: ARView) {
+        print("Download Started")
+        getData(from: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            print(response?.suggestedFilename ?? url.lastPathComponent)
+            print("Download Finished")
+            // always update the UI from the main thread
+            DispatchQueue.main.async {
+                do {
+                    let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+
+                    try data.write(to: fileURL)
+                    let texture = try TextureResource.load(contentsOf: fileURL)
+                    var material = SimpleMaterial()
+                    material.baseColor = MaterialColorParameter.texture(texture)
+                    let modelEntity = ModelEntity(mesh: .generateBox(size: 0.3), materials: [material])
+
+                    let anchorEntity = AnchorEntity(plane: .any)
+                    anchorEntity.addChild(modelEntity.clone(recursive: true))
+
+                    view.scene.addAnchor(anchorEntity)
+
+                    collectibleForPlacement = nil
+
+                } catch {
+                    print(error)
+                }
+            }
         }
     }
 }

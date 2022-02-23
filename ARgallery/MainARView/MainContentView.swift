@@ -15,7 +15,7 @@ struct MainContentView: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
-                ARViewContainer(isPlacementEnabled: $viewModel.isPlacementEnabled, imageDataForPlacement: $viewModel.imageDataForPlacement)
+                ARViewContainer(isPlacementEnabled: $viewModel.isPlacementEnabled, collectibleForPlacement: $viewModel.collectibleForPlacement)
                     .edgesIgnoringSafeArea(.all)
                 VStack {
                     if viewModel.address == "" {
@@ -23,7 +23,7 @@ struct MainContentView: View {
                     } else if viewModel.isPlacementEnabled {
                         PlacementButtonsView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                              selectedModel: $viewModel.selectedModel,
-                                             modelConfirmedForPlacement: $viewModel.imageDataForPlacement)
+                                             modelConfirmedForPlacement: $viewModel.collectibleForPlacement)
                     } else {
                         ModelPickerView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                         selectedModel: $viewModel.selectedModel,
@@ -71,7 +71,7 @@ struct MainContentView: View {
 
 struct ModelPickerView: View {
     @Binding var isPlacementEnabled: Bool
-    @Binding var selectedModel: Data?
+    @Binding var selectedModel: Collectible?
     @Binding var collectibles: [Collectible]
 
     @ObservedObject var viewModel: MainContentViewModel
@@ -79,10 +79,9 @@ struct ModelPickerView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 30) {
-
                 ForEach(collectibles.indices, id: \.self) { index in
                     Button {
-                        selectedModel = viewModel.images[index]
+                        selectedModel = collectibles[index]
                         isPlacementEnabled = true
                     } label: {
                         CachedAsyncImage(url: collectibles[index].getCollectibleURL(), urlCache: .imageCache) { image in
@@ -93,6 +92,7 @@ struct ModelPickerView: View {
                             ProgressView()
                                 .background(Color.purple.opacity(0.1))
                         }
+
                         .frame(width: 60, height: 60)
                         .cornerRadius(20)
                     }
@@ -108,8 +108,8 @@ struct ModelPickerView: View {
 
 struct PlacementButtonsView: View {
     @Binding var isPlacementEnabled: Bool
-    @Binding var selectedModel: Data?
-    @Binding var modelConfirmedForPlacement: Data?
+    @Binding var selectedModel: Collectible?
+    @Binding var modelConfirmedForPlacement: Collectible?
 
     var body: some View {
         HStack {
