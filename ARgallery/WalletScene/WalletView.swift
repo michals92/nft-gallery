@@ -8,37 +8,52 @@
 import SwiftUI
 import Introspect
 import UIKit
+import CachedAsyncImage
 
 struct WalletView: View {
     @ObservedObject var viewModel: MainContentViewModel
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        VStack {
-            HStack {
-                Button("Close") {
-                    presentationMode.wrappedValue.dismiss()
-                }.padding(.leading, 10)
-                TextField("Insert wallet address", text: $viewModel.address)
-                    .frame(height: 50)
-                    .padding([.leading, .trailing], 16)
-                    .introspectTextField { textField in
-                        textField.clearButtonMode = .always
+        NavigationView {
+            VStack {
+                HStack {
+                    TextField("Enter wallet address", text: $viewModel.address)
+                        .frame(height: 50)
+                        .padding([.leading, .trailing], 16)
+                        .introspectTextField { textField in
+                            textField.clearButtonMode = .always
+                        }
+                    Button {
+                        viewModel.getCollectibles()
+                        viewModel.saveAddress()
+                    } label: {
+                        Text("Load").font(.system(size: 13, weight: .semibold))
                     }
-                Button {
-                    print("load address")
-                    viewModel.getCollectibles()
-                    viewModel.saveAddress()
-                } label: {
-                    Text("Load")
-                }.padding(.trailing, 10)
-            }
+                    .padding(.trailing, 10)
+                }
 
-            List(viewModel.collectibles, id: \.name) { collectible in
-                CollectibleRow(collectible: collectible)
+                HStack {
+                    Text("List of NFTs")
+                        .padding(.leading, 16)
+                    Spacer()
+                }
+
+                List(viewModel.collectibles, id: \.name) { collectible in
+                    CollectibleRow(collectible: collectible)
+                }
+                .listStyle(.plain)
             }
-            .listStyle(.plain)
-        }.navigationTitle("NFT wallet")
+            .navigationTitle("Crypto wallet")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(content: {
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Text("Close")
+                }
+            })
+        }
     }
 }
 
@@ -46,7 +61,19 @@ struct CollectibleRow: View {
     var collectible: Collectible
 
     var body: some View {
-        Text(collectible.name ?? "N/A")
+        HStack {
+            CachedAsyncImage(url: collectible.getCollectibleURL(), urlCache: .imageCache) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            } placeholder: {
+                ProgressView()
+                    .background(Color.purple.opacity(0.1))
+            }
+            .frame(width: 40, height: 40)
+            .cornerRadius(5)
+            Text(collectible.name ?? "N/A")
+        }
     }
 }
 

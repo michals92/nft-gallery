@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SDWebImageSwiftUI
+import CachedAsyncImage
 
 struct MainContentView: View {
     @ObservedObject private var viewModel = MainContentViewModel()
@@ -32,7 +32,7 @@ struct MainContentView: View {
                 }
                 .navigationBarHidden(true)
                 closeButton
-                    .padding(.trailing, 16)
+                    .padding(16)
                     .edgesIgnoringSafeArea(.top)
             }
         }
@@ -52,7 +52,12 @@ struct MainContentView: View {
                         Text("wallet")
                             .font(Font.caption)
                     }
-                }.sheet(isPresented: $showingDetail) {
+                }
+                .frame(width: 46, height: 46)
+                .background(Color.white)
+                .cornerRadius(5)
+
+                .sheet(isPresented: $showingDetail) {
                     WalletView(viewModel: viewModel)
                 }
             }
@@ -80,13 +85,16 @@ struct ModelPickerView: View {
                         selectedModel = viewModel.images[index]
                         isPlacementEnabled = true
                     } label: {
-                        AnimatedImage(url: collectibles[index].getCollectibleURL())
-                            .onSuccess(perform: { image, _, _ in
-                                viewModel.images[index] = image.pngData()
-                            })
-                            .resizable()
-                            .placeholder { ProgressView() }
-                            .frame(width: 60, height: 60)
+                        CachedAsyncImage(url: collectibles[index].getCollectibleURL(), urlCache: .imageCache) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                        } placeholder: {
+                            ProgressView()
+                                .background(Color.purple.opacity(0.1))
+                        }
+                        .frame(width: 60, height: 60)
+                        .cornerRadius(20)
                     }
                 }
             }

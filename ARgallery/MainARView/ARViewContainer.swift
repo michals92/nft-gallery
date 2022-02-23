@@ -9,7 +9,6 @@ import UIKit
 import SwiftUI
 import FocusEntity
 import RealityKit
-import SDWebImageSwiftUI
 import ARKit
 
 struct ARViewContainer: UIViewRepresentable {
