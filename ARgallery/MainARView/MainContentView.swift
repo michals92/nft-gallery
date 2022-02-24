@@ -11,11 +11,12 @@ import CachedAsyncImage
 struct MainContentView: View {
     @ObservedObject private var viewModel = MainContentViewModel()
     @State private var showingDetail = false
+    @State private var isBox = false
 
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
-                ARViewContainer(isPlacementEnabled: $viewModel.isPlacementEnabled, collectibleForPlacement: $viewModel.collectibleForPlacement)
+                ARViewContainer(isPlacementEnabled: $viewModel.isPlacementEnabled, collectibleForPlacement: $viewModel.collectibleForPlacement, isBox: $isBox)
                     .edgesIgnoringSafeArea(.all)
                 VStack {
                     if viewModel.address == "" {
@@ -23,7 +24,7 @@ struct MainContentView: View {
                     } else if viewModel.isPlacementEnabled {
                         PlacementButtonsView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                              selectedModel: $viewModel.selectedModel,
-                                             modelConfirmedForPlacement: $viewModel.collectibleForPlacement)
+                                             modelConfirmedForPlacement: $viewModel.collectibleForPlacement, isBox: $isBox)
                     } else {
                         ModelPickerView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                         selectedModel: $viewModel.selectedModel,
@@ -31,7 +32,7 @@ struct MainContentView: View {
                     }
                 }
                 .navigationBarHidden(true)
-                closeButton
+                walletButton
                     .padding(16)
                     .edgesIgnoringSafeArea(.top)
             }
@@ -40,7 +41,7 @@ struct MainContentView: View {
         .onAppear(perform: viewModel.getCollectibles)
     }
 
-    var closeButton: some View {
+    var walletButton: some View {
         VStack {
             HStack {
                 Spacer()
@@ -90,7 +91,6 @@ struct ModelPickerView: View {
                                 .scaledToFill()
                         } placeholder: {
                             ProgressView()
-                                .background(Color.purple.opacity(0.1))
                         }
 
                         .frame(width: 60, height: 60)
@@ -110,6 +110,7 @@ struct PlacementButtonsView: View {
     @Binding var isPlacementEnabled: Bool
     @Binding var selectedModel: Collectible?
     @Binding var modelConfirmedForPlacement: Collectible?
+    @Binding var isBox: Bool
 
     var body: some View {
         HStack {
@@ -135,6 +136,12 @@ struct PlacementButtonsView: View {
                     .cornerRadius(30)
                     .padding(10)
             })
+            Spacer()
+            Button {
+                isBox.toggle()
+            } label: {
+                Text(isBox ? "krabice" : "obraz").padding(.trailing, 10)
+            }
         }
     }
 

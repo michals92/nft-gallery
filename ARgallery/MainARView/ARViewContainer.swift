@@ -14,6 +14,7 @@ import ARKit
 struct ARViewContainer: UIViewRepresentable {
     @Binding var isPlacementEnabled: Bool
     @Binding var collectibleForPlacement: Collectible?
+    @Binding var isBox: Bool
 
     func makeUIView(context: Context) -> ARView {
 
@@ -41,12 +42,10 @@ struct ARViewContainer: UIViewRepresentable {
     }
 
     private func downloadImage(from url: URL, view: ARView) {
-        print("Download Started")
         getData(from: url) { data, response, error in
             guard let data = data, error == nil else { return }
             print(response?.suggestedFilename ?? url.lastPathComponent)
-            print("Download Finished")
-            // always update the UI from the main thread
+
             DispatchQueue.main.async {
                 do {
                     let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -55,7 +54,13 @@ struct ARViewContainer: UIViewRepresentable {
                     let texture = try TextureResource.load(contentsOf: fileURL)
                     var material = SimpleMaterial()
                     material.baseColor = MaterialColorParameter.texture(texture)
-                    let modelEntity = ModelEntity(mesh: .generateBox(size: 0.3), materials: [material])
+
+                    var modelEntity = ModelEntity(mesh: .generatePlane(width: 0.3, height: 0.3), materials: [material])
+                    modelEntity.transform = Transform(pitch: -.pi/2, yaw: 0, roll: 0)
+
+                    if isBox {
+                        modelEntity = ModelEntity(mesh: .generateBox(size: 0.3), materials: [material])
+                    }
 
                     let anchorEntity = AnchorEntity(plane: .any)
                     anchorEntity.addChild(modelEntity.clone(recursive: true))
@@ -69,6 +74,10 @@ struct ARViewContainer: UIViewRepresentable {
                 }
             }
         }
+    }
+
+    func showImagePreview() {
+        
     }
 }
 

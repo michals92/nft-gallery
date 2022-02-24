@@ -68,7 +68,6 @@ struct CollectibleRow: View {
                     .scaledToFill()
             } placeholder: {
                 ProgressView()
-                    .background(Color.purple.opacity(0.1))
             }
             .frame(width: 40, height: 40)
             .cornerRadius(5)
