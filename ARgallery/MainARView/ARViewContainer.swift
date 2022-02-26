@@ -15,10 +15,11 @@ struct ARViewContainer: UIViewRepresentable {
     @Binding var isPlacementEnabled: Bool
     @Binding var collectibleForPlacement: Collectible?
     @Binding var isBox: Bool
+    @Binding var isFrontCamera: Bool
 
     func makeUIView(context: Context) -> ARView {
 
-        let arView = CustomARView(frame: .zero)
+        let arView = CustomARView(frame: .zero, isFrontCamera: isFrontCamera)
 
         #if !targetEnvironment(simulator)
         arView.addCoaching()
@@ -34,6 +35,7 @@ struct ARViewContainer: UIViewRepresentable {
 
         if let customARView = uiView as? CustomARView {
             customARView.focusSquare.isEnabled = isPlacementEnabled
+            customARView.setupARView(isFrontCamera: isFrontCamera)
         }
     }
 
@@ -56,17 +58,23 @@ struct ARViewContainer: UIViewRepresentable {
                     material.baseColor = MaterialColorParameter.texture(texture)
 
                     var modelEntity = ModelEntity(mesh: .generatePlane(width: 0.3, height: 0.3), materials: [material])
-                    modelEntity.transform = Transform(pitch: -.pi/2, yaw: 0, roll: 0)
 
                     if isBox {
                         modelEntity = ModelEntity(mesh: .generateBox(size: 0.3), materials: [material])
                     }
 
-                    let anchorEntity = AnchorEntity(plane: .any)
-                    anchorEntity.addChild(modelEntity.clone(recursive: true))
-
-                    view.scene.addAnchor(anchorEntity)
-
+                    if isFrontCamera {
+                        let anchorEntity = AnchorEntity(world: SIMD3(x: 0, y: 0, z: -1))
+                        anchorEntity.addChild(modelEntity)
+                        view.scene.addAnchor(anchorEntity)
+                        modelEntity.generateCollisionShapes(recursive: true)
+                        view.installGestures([.rotation, .scale, .translation], for: modelEntity)
+                    } else {
+                        modelEntity.transform = Transform(pitch: -.pi/2, yaw: 0, roll: 0)
+                        let anchorEntity = AnchorEntity(plane: .any)
+                        anchorEntity.addChild(modelEntity.clone(recursive: true))
+                        view.scene.addAnchor(anchorEntity)
+                    }
                     collectibleForPlacement = nil
 
                 } catch {
@@ -75,39 +83,56 @@ struct ARViewContainer: UIViewRepresentable {
             }
         }
     }
-
-    func showImagePreview() {
-        
-    }
 }
 
 class CustomARView: ARView {
     let focusSquare = FESquare()
+    var wasFrontCamera: Bool = false
 
-    required init(frame frameRect: CGRect) {
+    required init(frame frameRect: CGRect, isFrontCamera: Bool) {
+
         super.init(frame: frameRect)
 
         focusSquare.viewDelegate = self
         focusSquare.setAutoUpdate(to: true)
 
-        setupARView()
+        setupARView(isFrontCamera: isFrontCamera)
     }
 
     @objc required dynamic init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupARView() {
-        let config = ARWorldTrackingConfiguration()
-        config.planeDetection = [.horizontal, .vertical]
-        config.environmentTexturing = .automatic
-        config.frameSemantics.insert(.personSegmentationWithDepth)
+    @MainActor @objc override required dynamic init(frame frameRect: CGRect) {
+        fatalError("init(frame:) has not been implemented")
+    }
 
-        if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
-            config.sceneReconstruction = .mesh
+    func setupARView(isFrontCamera: Bool) {
+        if isFrontCamera {
+            let configuration = ARFaceTrackingConfiguration()
+            if #available(iOS 13.0, *) {
+                configuration.maximumNumberOfTrackedFaces = ARFaceTrackingConfiguration.supportedNumberOfTrackedFaces
+            }
+            configuration.isLightEstimationEnabled = true
+            self.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+        } else {
+            let configuration = ARWorldTrackingConfiguration()
+            configuration.planeDetection = [.horizontal, .vertical]
+            configuration.environmentTexturing = .automatic
+            configuration.frameSemantics.insert(.personSegmentationWithDepth)
+
+            if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
+                configuration.sceneReconstruction = .mesh
+            }
+
+            if isFrontCamera == wasFrontCamera {
+                self.session.run(configuration)
+            } else {
+                self.session.run(configuration, options: [.removeExistingAnchors, .resetTracking])
+            }
         }
 
-        self.session.run(config)
+        wasFrontCamera = isFrontCamera
     }
 }
 

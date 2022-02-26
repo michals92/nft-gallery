@@ -12,11 +12,12 @@ struct MainContentView: View {
     @ObservedObject private var viewModel = MainContentViewModel()
     @State private var showingDetail = false
     @State private var isBox = false
+    @State private var isFrontCamera = false
 
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
-                ARViewContainer(isPlacementEnabled: $viewModel.isPlacementEnabled, collectibleForPlacement: $viewModel.collectibleForPlacement, isBox: $isBox)
+                ARViewContainer(isPlacementEnabled: $viewModel.isPlacementEnabled, collectibleForPlacement: $viewModel.collectibleForPlacement, isBox: $isBox, isFrontCamera: $isFrontCamera)
                     .edgesIgnoringSafeArea(.all)
                 VStack {
                     if viewModel.address == "" {
@@ -28,7 +29,7 @@ struct MainContentView: View {
                     } else {
                         ModelPickerView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                         selectedModel: $viewModel.selectedModel,
-                                        collectibles: $viewModel.collectibles, viewModel: viewModel)
+                                        collectibles: $viewModel.collectibles, isFrontCamera: $isFrontCamera, viewModel: viewModel)
                     }
                 }
                 .navigationBarHidden(true)
@@ -74,33 +75,47 @@ struct ModelPickerView: View {
     @Binding var isPlacementEnabled: Bool
     @Binding var selectedModel: Collectible?
     @Binding var collectibles: [Collectible]
+    @Binding var isFrontCamera: Bool
 
     @ObservedObject var viewModel: MainContentViewModel
 
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            LazyHStack(spacing: 30) {
-                ForEach(collectibles.indices, id: \.self) { index in
-                    Button {
-                        selectedModel = collectibles[index]
-                        isPlacementEnabled = true
-                    } label: {
-                        CachedAsyncImage(url: collectibles[index].getCollectibleURL(), urlCache: .imageCache) { image in
-                            image
-                                .resizable()
-                                .scaledToFill()
-                        } placeholder: {
-                            ProgressView()
-                        }
+        VStack {
+            Button {
+                isFrontCamera.toggle()
+            } label: {
+                Image(systemName: "arrow.triangle.2.circlepath.camera")
+                    .resizable()
+                    .padding(10)
+                    .scaledToFit()
+            }
+            .frame(width: 40, height: 40)
+            .background(Color.white)
+            .cornerRadius(20)
 
-                        .frame(width: 60, height: 60)
-                        .cornerRadius(20)
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: 10) {
+                    ForEach(collectibles.indices, id: \.self) { index in
+                        Button {
+                            selectedModel = collectibles[index]
+                            isPlacementEnabled = true
+                        } label: {
+                            CachedAsyncImage(url: collectibles[index].getCollectibleURL(), urlCache: .imageCache) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(width: 60, height: 60)
+                            .cornerRadius(20)
+                        }
                     }
                 }
+                .padding(10)
             }
-            .padding(10)
+            .frame(height: 80)
         }
-        .frame(height: 80)
     }
 }
 
