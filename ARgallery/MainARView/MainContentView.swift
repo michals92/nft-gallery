@@ -14,17 +14,18 @@ struct MainContentView: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
+            ZStack(alignment: .bottom) {
                 ARViewContainer(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                 collectibleForPlacement: $viewModel.collectibleForPlacement,
                                 isBox: $isBox,
                                 isFrontCamera: $isFrontCamera)
                     .edgesIgnoringSafeArea(.all)
+                    .padding(.bottom, 100)
 
                 VStack {
                     if viewModel.address == "" {
                         Text("Please import Wallet!")
-                    } else if viewModel.isPlacementEnabled {
+                    } else if !viewModel.isPlacementEnabled {
                         PlacementButtonsView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                              selectedModel: $viewModel.selectedModel,
                                              modelConfirmedForPlacement: $viewModel.collectibleForPlacement,
@@ -38,7 +39,11 @@ struct MainContentView: View {
                     }
                 }
                 .background(Color(uiColor: .primaryBackgroundColor))
-                .overlay(Rectangle().frame(width: .none, height: 0.5, alignment: .top).foregroundColor(Color(uiColor: .ternaryTextColor)), alignment: .top)
+                .overlay(
+                    Rectangle()
+                        .frame(width: .none, height: 0.5, alignment: .top)
+                        .foregroundColor(Color(uiColor: .ternaryTextColor))
+                    , alignment: .top)
             }
             .navigationBarHidden(true)
         }

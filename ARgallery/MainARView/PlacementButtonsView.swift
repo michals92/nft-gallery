@@ -14,36 +14,66 @@ struct PlacementButtonsView: View {
     @Binding var isBox: Bool
 
     var body: some View {
-        HStack {
-            Button(action: {
-                resetPlacementParameters()
-            }, label: {
-                Image(systemName: "xmark")
-                    .frame(width: 60, height: 60)
-                    .font(.title)
-                    .background(Color.white.opacity(0.75))
-                    .cornerRadius(30)
-                    .padding(20)
-            })
+        HStack(spacing: 0) {
+            Spacer()
+            HStack(spacing: 0) {
+                Button(action: {
+                    print("add animation")
+                }, label: {
+                    Image(systemName: "rotate.right")
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(Color(uiColor: .ternaryTextColor))
+                        .padding()
+                        .scaledToFit()
+                        .frame(width: 60, height: 60)
+                })
+                Button(action: {
+                    isBox.toggle()
+                }, label: {
+                    Image(systemName: "square.on.circle")
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(Color(uiColor: .ternaryTextColor))
+                        .padding()
+                        .scaledToFit()
+                        .frame(width: 60, height: 60)
+                })
+            }
+            .frame(minWidth: 0, maxWidth: .infinity)
 
+            Spacer()
             Button(action: {
                 modelConfirmedForPlacement = selectedModel
                 resetPlacementParameters()
             }, label: {
                 Image(systemName: "checkmark")
+                    .resizable()
+                    .renderingMode(.template)
+                    .foregroundColor(Color.white)
+                    .background(Image("background"))
+                    .scaledToFit()
+                    .padding()
                     .frame(width: 60, height: 60)
-                    .font(.title)
-                    .background(Color.white.opacity(0.75))
                     .cornerRadius(30)
-                    .padding(10)
             })
+                .frame(minWidth: 0, maxWidth: .infinity)
             Spacer()
             Button {
-                isBox.toggle()
+                resetPlacementParameters()
             } label: {
-                Text(isBox ? "krabice" : "obraz").padding(.trailing, 10)
+                Image(systemName: "xmark")
+                    .resizable()
+                    .renderingMode(.template)
+                    .foregroundColor(Color(uiColor: .ternaryTextColor))
+                    .padding()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
             }
+            .frame(minWidth: 0, maxWidth: .infinity)
+            Spacer()
         }
+        .padding(.top, 10)
     }
 
     func resetPlacementParameters() {
