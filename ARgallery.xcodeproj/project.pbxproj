@@ -16,6 +16,10 @@
 		7110F40B27B412A3000168C5 /* MoralisApiAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7110F40A27B412A3000168C5 /* MoralisApiAdapter.swift */; };
 		7110F40D27B412C9000168C5 /* MoralisServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7110F40C27B412C9000168C5 /* MoralisServer.swift */; };
 		7110F40F27B5B1C1000168C5 /* Collectibles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7110F40E27B5B1C1000168C5 /* Collectibles.swift */; };
+		711A41AD27CAEC2E00A08787 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A41AC27CAEC2E00A08787 /* Colors.swift */; };
+		711A41AF27CAF2D000A08787 /* ModelPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A41AE27CAF2D000A08787 /* ModelPickerView.swift */; };
+		711A41B127CAF98000A08787 /* PlacementButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A41B027CAF98000A08787 /* PlacementButtonsView.swift */; };
+		711A41B327CAFA5A00A08787 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 711A41B227CAFA5A00A08787 /* Launch Screen.storyboard */; };
 		711D2D3C27B81944001FE3D3 /* WalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711D2D3B27B81944001FE3D3 /* WalletViewModel.swift */; };
 		712003AF27B3DD0C00148E9E /* MainContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003AE27B3DD0C00148E9E /* MainContentViewModel.swift */; };
 		712003BE27B3E7A000148E9E /* ARgallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003BD27B3E7A000148E9E /* ARgallery.swift */; };
@@ -36,6 +40,11 @@
 		7110F40A27B412A3000168C5 /* MoralisApiAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoralisApiAdapter.swift; sourceTree = "<group>"; };
 		7110F40C27B412C9000168C5 /* MoralisServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoralisServer.swift; sourceTree = "<group>"; };
 		7110F40E27B5B1C1000168C5 /* Collectibles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collectibles.swift; sourceTree = "<group>"; };
+		711A41AC27CAEC2E00A08787 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		711A41AE27CAF2D000A08787 /* ModelPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelPickerView.swift; sourceTree = "<group>"; };
+		711A41B027CAF98000A08787 /* PlacementButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacementButtonsView.swift; sourceTree = "<group>"; };
+		711A41B227CAFA5A00A08787 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		711A41B427CAFE6B00A08787 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		711D2D3B27B81944001FE3D3 /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
 		712003AE27B3DD0C00148E9E /* MainContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentViewModel.swift; sourceTree = "<group>"; };
 		712003BD27B3E7A000148E9E /* ARgallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARgallery.swift; sourceTree = "<group>"; };
@@ -79,12 +88,15 @@
 		1C278C0327A170D4003FDED6 /* ARgallery */ = {
 			isa = PBXGroup;
 			children = (
+				711A41B427CAFE6B00A08787 /* Info.plist */,
 				712003BD27B3E7A000148E9E /* ARgallery.swift */,
 				71D0501C27B710BE003A8EF6 /* MainARView */,
 				711D2D3A27B81934001FE3D3 /* WalletScene */,
 				7110F40E27B5B1C1000168C5 /* Collectibles.swift */,
+				711A41AC27CAEC2E00A08787 /* Colors.swift */,
 				7110F40927B4128C000168C5 /* Service */,
 				1C278C0A27A170D5003FDED6 /* Assets.xcassets */,
+				711A41B227CAFA5A00A08787 /* Launch Screen.storyboard */,
 				7196DA7427C2E0CE00C17D50 /* Extensions */,
 				1C278C0C27A170D5003FDED6 /* Preview Content */,
 			);
@@ -132,6 +144,8 @@
 			children = (
 				1C278C0627A170D4003FDED6 /* MainContentView.swift */,
 				712003AE27B3DD0C00148E9E /* MainContentViewModel.swift */,
+				711A41AE27CAF2D000A08787 /* ModelPickerView.swift */,
+				711A41B027CAF98000A08787 /* PlacementButtonsView.swift */,
 				71D0501F27B7195E003A8EF6 /* ARViewContainer.swift */,
 			);
 			path = MainARView;
@@ -209,6 +223,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				711A41B327CAFA5A00A08787 /* Launch Screen.storyboard in Resources */,
 				1C278C0E27A170D5003FDED6 /* Preview Assets.xcassets in Resources */,
 				1C278C0B27A170D5003FDED6 /* Assets.xcassets in Resources */,
 			);
@@ -244,12 +259,15 @@
 			files = (
 				1C278C0727A170D4003FDED6 /* MainContentView.swift in Sources */,
 				7196DA7327C2E0C300C17D50 /* String+Extensions.swift in Sources */,
+				711A41AF27CAF2D000A08787 /* ModelPickerView.swift in Sources */,
 				7110F40D27B412C9000168C5 /* MoralisServer.swift in Sources */,
 				712003BE27B3E7A000148E9E /* ARgallery.swift in Sources */,
 				7110F40B27B412A3000168C5 /* MoralisApiAdapter.swift in Sources */,
+				711A41B127CAF98000A08787 /* PlacementButtonsView.swift in Sources */,
 				712003AF27B3DD0C00148E9E /* MainContentViewModel.swift in Sources */,
 				711D2D3C27B81944001FE3D3 /* WalletViewModel.swift in Sources */,
 				7110F40527B4120B000168C5 /* MoralisService.swift in Sources */,
+				711A41AD27CAEC2E00A08787 /* Colors.swift in Sources */,
 				7110F40F27B5B1C1000168C5 /* Collectibles.swift in Sources */,
 				712003C027B3EFEB00148E9E /* WalletView.swift in Sources */,
 				71D0502027B7195E003A8EF6 /* ARViewContainer.swift in Sources */,
@@ -383,14 +401,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"ARgallery/Preview Content\"";
 				DEVELOPMENT_TEAM = 4VF4FEXU8X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ARgallery/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -417,14 +437,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"ARgallery/Preview Content\"";
 				DEVELOPMENT_TEAM = 4VF4FEXU8X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ARgallery/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
