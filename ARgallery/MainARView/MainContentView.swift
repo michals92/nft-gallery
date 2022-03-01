@@ -20,12 +20,10 @@ struct MainContentView: View {
                                 isBox: $isBox,
                                 isFrontCamera: $isFrontCamera)
                     .edgesIgnoringSafeArea(.all)
-                    .padding(.bottom, 100)
+                    .padding(.bottom, 60)
 
                 VStack {
-                    if viewModel.address == "" {
-                        Text("Please import Wallet!")
-                    } else if !viewModel.isPlacementEnabled {
+                    if viewModel.isPlacementEnabled {
                         PlacementButtonsView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                              selectedModel: $viewModel.selectedModel,
                                              modelConfirmedForPlacement: $viewModel.collectibleForPlacement,

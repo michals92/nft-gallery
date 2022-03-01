@@ -64,11 +64,11 @@ struct ARViewContainer: UIViewRepresentable {
                     }
 
                     if isFrontCamera {
-                        let anchorEntity = AnchorEntity(world: SIMD3(x: 0, y: 0, z: -1))
+                        let anchorEntity = AnchorEntity(world: SIMD3(x: 0, y: 0, z: -2))
                         anchorEntity.addChild(modelEntity)
                         view.scene.addAnchor(anchorEntity)
                         modelEntity.generateCollisionShapes(recursive: true)
-                        view.installGestures([.rotation, .scale, .translation], for: modelEntity)
+                        view.installGestures([.translation], for: modelEntity)
                     } else {
                         modelEntity.transform = Transform(pitch: -.pi/2, yaw: 0, roll: 0)
                         let anchorEntity = AnchorEntity(plane: .any)
