@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import PartialSheet
 
 @main
 struct ModelPicker: App {
     var body: some Scene {
         WindowGroup {
             MainContentView()
+                .attachPartialSheetToRoot()
         }
     }
 }

@@ -24,6 +24,7 @@
 		712003AF27B3DD0C00148E9E /* MainContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003AE27B3DD0C00148E9E /* MainContentViewModel.swift */; };
 		712003BE27B3E7A000148E9E /* ARgallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003BD27B3E7A000148E9E /* ARgallery.swift */; };
 		712003C027B3EFEB00148E9E /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003BF27B3EFEB00148E9E /* WalletView.swift */; };
+		714E66EB27D7874800FC32B6 /* PartialSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 714E66EA27D7874800FC32B6 /* PartialSheet */; };
 		7196DA7327C2E0C300C17D50 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7196DA7227C2E0C300C17D50 /* String+Extensions.swift */; };
 		71D0502027B7195E003A8EF6 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0501F27B7195E003A8EF6 /* ARViewContainer.swift */; };
 		71D0502327B727AC003A8EF6 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 71D0502227B727AC003A8EF6 /* Introspect */; };
@@ -59,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				714E66EB27D7874800FC32B6 /* PartialSheet in Frameworks */,
 				71FBFD7627C6F8B400123CC1 /* CachedAsyncImage in Frameworks */,
 				1C278C2927A1D859003FDED6 /* FocusEntity in Frameworks */,
 				71D0502327B727AC003A8EF6 /* Introspect in Frameworks */,
@@ -173,6 +175,7 @@
 				7110F40727B4127C000168C5 /* FTAPIKit */,
 				71D0502227B727AC003A8EF6 /* Introspect */,
 				71FBFD7527C6F8B400123CC1 /* CachedAsyncImage */,
+				714E66EA27D7874800FC32B6 /* PartialSheet */,
 			);
 			productName = ModelPicker;
 			productReference = 1C278C0127A170D4003FDED6 /* AR gallery.app */;
@@ -208,6 +211,7 @@
 				7110F40627B4127C000168C5 /* XCRemoteSwiftPackageReference "FTAPIKit" */,
 				71D0502127B727AC003A8EF6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				71FBFD7427C6F8B400123CC1 /* XCRemoteSwiftPackageReference "SwiftUI-CachedAsyncImage" */,
+				714E66E927D7874800FC32B6 /* XCRemoteSwiftPackageReference "PartialSheet" */,
 			);
 			productRefGroup = 1C278C0227A170D4003FDED6 /* Products */;
 			projectDirPath = "";
@@ -516,6 +520,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		714E66E927D7874800FC32B6 /* XCRemoteSwiftPackageReference "PartialSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AndreaMiotto/PartialSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		71D0502127B727AC003A8EF6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
@@ -544,6 +556,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7110F40627B4127C000168C5 /* XCRemoteSwiftPackageReference "FTAPIKit" */;
 			productName = FTAPIKit;
+		};
+		714E66EA27D7874800FC32B6 /* PartialSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 714E66E927D7874800FC32B6 /* XCRemoteSwiftPackageReference "PartialSheet" */;
+			productName = PartialSheet;
 		};
 		71D0502227B727AC003A8EF6 /* Introspect */ = {
 			isa = XCSwiftPackageProductDependency;

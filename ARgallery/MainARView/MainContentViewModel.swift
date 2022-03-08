@@ -17,6 +17,7 @@ final class MainContentViewModel: ObservableObject {
     @Published var hasWallet = false
     @Published var collectibles: [Collectible] = []
     @Published var address = UserDefaults.standard.string(forKey: "address")  ?? ""
+    @Published var tempAddress = UserDefaults.standard.string(forKey: "address")  ?? ""
 
     func getCollectibles() {
         let moralisService = MoralisCollectiblesService(apiAdapter: MoralisApiAdapter())
@@ -38,6 +39,8 @@ final class MainContentViewModel: ObservableObject {
     }
 
     func saveAddress() {
+        address = tempAddress
         UserDefaults.standard.set(address, forKey: "address")
+        getCollectibles()
     }
 }

@@ -13,47 +13,85 @@ import CachedAsyncImage
 struct WalletView: View {
     @ObservedObject var viewModel: MainContentViewModel
     @Environment(\.presentationMode) var presentationMode
+    @State var editWallet = false
 
     var body: some View {
         NavigationView {
             VStack {
                 HStack {
-                    TextField("Enter wallet address", text: $viewModel.address)
-                        .frame(height: 50)
-                        .padding([.leading, .trailing], 16)
-                        .introspectTextField { textField in
-                            textField.clearButtonMode = .always
-                        }
-                    Button {
-                        viewModel.getCollectibles()
-                        viewModel.saveAddress()
-                    } label: {
-                        Text("Load").font(.system(size: 13, weight: .semibold))
-                    }
-                    .padding(.trailing, 10)
-                }
-
-                HStack {
-                    Text("List of NFTs")
-                        .padding(.leading, 16)
+                    Text("ETHEREUM WALLET")
+                        .font(Font.system(size: 13, weight: .semibold))
+                        .foregroundColor(Color(uiColor: .ternaryTextColor))
                     Spacer()
                 }
+                .padding([.top, .leading, .trailing], 16)
+                if editWallet {
+                    TextField("Enter wallet address", text: $viewModel.tempAddress)
+                        .introspectTextField {
+                            $0.clearButtonMode = .always
+                        }
+                        .padding()
+                    HStack(alignment: .center, spacing: 20) {
+                        Spacer()
+                        Button {
+                            editWallet = false
+                        } label: {
+                            Text("CANCEL")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundColor(Color(uiColor: .secondaryTextColor))
+                        }
+                        .frame(width: 90, height: 30)
+                        .background(Color(uiColor: .secondaryBackgroundColor))
+                        .cornerRadius(15)
 
-                List(viewModel.collectibles, id: \.name) { collectible in
-                    CollectibleRow(collectible: collectible)
+                        Button {
+                            editWallet = false
+                        } label: {
+                            LinearGradient(gradient: Gradient(colors: [Color(hex: 0xC9123E), Color(hex: 0xCB2BAB)]),
+                                           startPoint: .topLeading,
+                                           endPoint: .bottomTrailing)
+                                .mask(
+                                    Text("CONFIRM")
+                                        .font(.system(size: 13, weight: .semibold))
+                                )
+                        }
+                        .frame(width: 90, height: 30)
+                        .background(Color(uiColor: .secondaryTextColor))
+                        .cornerRadius(15)
+                        Spacer()
+                    }
+                } else {
+                    Text(viewModel.address)
+                        .frame(height: 50)
+                        .padding([.leading, .trailing], 16)
+                    Divider()
+                    HStack {
+                        Text("\(viewModel.collectibles.count) NFTs available for this wallet")
+                            .padding(.leading, 16)
+                        Spacer()
+                        Button {
+                            editWallet = true
+                        } label: {
+                            LinearGradient(gradient: Gradient(colors: [Color(hex: 0xC9123E), Color(hex: 0xCB2BAB)]),
+                                           startPoint: .topLeading,
+                                           endPoint: .bottomTrailing)
+                                .mask(
+                                    Text("CHANGE")
+                                        .font(.system(size: 13, weight: .semibold))
+                                )
+                        }
+                        .frame(width: 90, height: 30)
+                        .background(Color(uiColor: .secondaryTextColor))
+                        .cornerRadius(15)
+                    }
+                    .padding(.trailing, 16)
                 }
-                .listStyle(.plain)
+                Spacer()
             }
-            .navigationTitle("Crypto wallet")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar(content: {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Text("Close")
-                }
-            })
+            .background(Color(uiColor: .primaryBackgroundColor))
+            .navigationBarHidden(true)
         }
+        .frame(height: 200)
     }
 }
 

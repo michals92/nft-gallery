@@ -47,6 +47,15 @@
         }
       },
       {
+        "package": "PartialSheet",
+        "repositoryURL": "https://github.com/AndreaMiotto/PartialSheet",
+        "state": {
+          "branch": null,
+          "revision": "318f18bfabd2b2ddf785babd2e53bd593c00a254",
+          "version": "3.1.0"
+        }
+      },
+      {
         "package": "PromiseKit",
         "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {

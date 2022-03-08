@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CachedAsyncImage
+import PartialSheet
 
 struct ModelPickerView: View {
     @Binding var isPlacementEnabled: Bool
@@ -17,6 +18,13 @@ struct ModelPickerView: View {
     @State private var showingDetail = false
 
     @ObservedObject var viewModel: MainContentViewModel
+
+    let iPhoneStyle = PSIphoneStyle(
+        background: .solid(Color(uiColor: .primaryBackgroundColor)),
+        handleBarStyle: .solid(.secondary),
+        cover: .enabled(Color.black.opacity(0.4)),
+        cornerRadius: 10
+    )
 
     var body: some View {
         VStack(spacing: 20) {
@@ -66,9 +74,9 @@ struct ModelPickerView: View {
                     }
                 }
                 .frame(width: 60, height: 60)
-                .sheet(isPresented: $showingDetail) {
+                .partialSheet(isPresented: $showingDetail, iPhoneStyle: iPhoneStyle, content: {
                     WalletView(viewModel: viewModel)
-                }
+                })
                 Spacer()
                 Button {
                     print("taka snapshot")
