@@ -14,6 +14,11 @@ struct WalletView: View {
     @ObservedObject var viewModel: MainContentViewModel
     @Environment(\.presentationMode) var presentationMode
     @State var editWallet = false
+    @FocusState private var focusedField: FocusField?
+
+    enum FocusField: Hashable {
+        case field
+    }
 
     var body: some View {
         NavigationView {
@@ -27,9 +32,15 @@ struct WalletView: View {
                 .padding([.top, .leading, .trailing], 16)
                 if editWallet {
                     TextField("Enter wallet address", text: $viewModel.tempAddress)
-                        .introspectTextField {
-                            $0.clearButtonMode = .always
+                        .introspectTextField(customize: { textField in
+                            textField.clearButtonMode = .whileEditing
+                        })
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                                self.focusedField = .field
+                            }
                         }
+                        .focused($focusedField, equals: .field)
                         .padding()
                     HStack(alignment: .center, spacing: 20) {
                         Spacer()
@@ -62,7 +73,6 @@ struct WalletView: View {
                     }
                 } else {
                     Text(viewModel.address)
-                        .frame(height: 50)
                         .padding([.leading, .trailing], 16)
                     Divider()
                     HStack {
@@ -75,6 +85,7 @@ struct WalletView: View {
                             LinearGradient(gradient: Gradient(colors: [Color(hex: 0xC9123E), Color(hex: 0xCB2BAB)]),
                                            startPoint: .topLeading,
                                            endPoint: .bottomTrailing)
+                                .frame(width: 90, height: 30)
                                 .mask(
                                     Text("CHANGE")
                                         .font(.system(size: 13, weight: .semibold))
