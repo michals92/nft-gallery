@@ -40,11 +40,16 @@ struct WalletView: View {
                                 self.focusedField = .field
                             }
                         }
+                        .onChange(of: viewModel.tempAddress) { value in
+                            // TODO: - fetch number of nfts
+                            print(value)
+                        }
                         .focused($focusedField, equals: .field)
                         .padding()
                     HStack(alignment: .center, spacing: 20) {
                         Spacer()
                         Button {
+                            viewModel.tempAddress = viewModel.address
                             editWallet = false
                         } label: {
                             Text("CANCEL")
@@ -57,6 +62,8 @@ struct WalletView: View {
 
                         Button {
                             editWallet = false
+                            viewModel.address = viewModel.tempAddress
+                            viewModel.saveAddress()
                         } label: {
                             LinearGradient(gradient: Gradient(colors: [Color(hex: 0xC9123E), Color(hex: 0xCB2BAB)]),
                                            startPoint: .topLeading,
