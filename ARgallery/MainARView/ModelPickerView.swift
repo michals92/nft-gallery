@@ -79,7 +79,7 @@ struct ModelPickerView: View {
                 })
                 Spacer()
                 Button {
-                    print("taka snapshot")
+                    viewModel.takeSnapshot = true
                 } label: {
                     Image("camera")
                 }

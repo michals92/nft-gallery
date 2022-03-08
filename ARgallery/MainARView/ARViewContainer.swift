@@ -16,9 +16,12 @@ struct ARViewContainer: UIViewRepresentable {
     @Binding var collectibleForPlacement: Collectible?
     @Binding var isBox: Bool
     @Binding var isFrontCamera: Bool
+    @Binding var takeSnapshot: Bool
+    @Binding var imageToShare: UIImage?
 
     func makeUIView(context: Context) -> ARView {
 
+        print("make")
         let arView = CustomARView(frame: .zero, isFrontCamera: isFrontCamera)
 
         #if !targetEnvironment(simulator)
@@ -34,6 +37,15 @@ struct ARViewContainer: UIViewRepresentable {
         }
 
         if let customARView = uiView as? CustomARView {
+            if takeSnapshot && !customARView.isTakingImage && imageToShare == nil {
+                customARView
+                    .takeImage(true)
+                    .snapshot(saveToHDR: false) { image in
+                        imageToShare = image
+                        customARView.clearImage()
+                    }
+            }
+
             customARView.focusSquare.isEnabled = isPlacementEnabled
             customARView.setupARView(isFrontCamera: isFrontCamera)
         }
@@ -89,6 +101,8 @@ class CustomARView: ARView {
     let focusSquare = FESquare()
     var wasFrontCamera: Bool = false
 
+    var isTakingImage = false
+
     required init(frame frameRect: CGRect, isFrontCamera: Bool) {
 
         super.init(frame: frameRect)
@@ -134,6 +148,14 @@ class CustomARView: ARView {
 
         wasFrontCamera = isFrontCamera
     }
+
+    func clearImage() {
+        isTakingImage = false
+    }
+
+    func stopCamera() {
+
+    }
 }
 
 extension ARView: ARCoachingOverlayViewDelegate {
@@ -146,5 +168,13 @@ extension ARView: ARCoachingOverlayViewDelegate {
         coachingOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         coachingOverlay.goal = .tracking
         self.addSubview(coachingOverlay)
+    }
+}
+
+extension CustomARView {
+    func takeImage(_ bool: Bool) -> CustomARView {
+        let view = self
+        view.isTakingImage = bool
+        return view
     }
 }

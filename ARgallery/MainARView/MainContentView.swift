@@ -18,10 +18,11 @@ struct MainContentView: View {
                 ARViewContainer(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                 collectibleForPlacement: $viewModel.collectibleForPlacement,
                                 isBox: $isBox,
-                                isFrontCamera: $isFrontCamera)
+                                isFrontCamera: $isFrontCamera,
+                                takeSnapshot: $viewModel.takeSnapshot,
+                                imageToShare: $viewModel.imageToShare)
                     .edgesIgnoringSafeArea(.all)
                     .padding(.bottom, 60)
-
                 VStack {
                     if viewModel.isPlacementEnabled {
                         PlacementButtonsView(isPlacementEnabled: $viewModel.isPlacementEnabled,
@@ -44,6 +45,14 @@ struct MainContentView: View {
                     , alignment: .top)
             }
             .navigationBarHidden(true)
+            .sheet(isPresented: $viewModel.takeSnapshot, onDismiss: {
+                viewModel.takeSnapshot = false
+                viewModel.imageToShare = nil
+            }, content: {
+                if let image = viewModel.imageToShare {
+                    ShareImagesView(image: image)
+                }
+            })
         }
         .onAppear(perform: viewModel.getCollectibles)
     }

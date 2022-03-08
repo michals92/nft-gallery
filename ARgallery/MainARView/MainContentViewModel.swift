@@ -19,6 +19,9 @@ final class MainContentViewModel: ObservableObject {
     @Published var address = UserDefaults.standard.string(forKey: "address")  ?? ""
     @Published var tempAddress = UserDefaults.standard.string(forKey: "address")  ?? ""
 
+    @Published var takeSnapshot = false
+    @Published var imageToShare: UIImage?
+
     func getCollectibles() {
         let moralisService = MoralisCollectiblesService(apiAdapter: MoralisApiAdapter())
 

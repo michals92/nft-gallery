@@ -28,6 +28,7 @@
 		7196DA7327C2E0C300C17D50 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7196DA7227C2E0C300C17D50 /* String+Extensions.swift */; };
 		71D0502027B7195E003A8EF6 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0501F27B7195E003A8EF6 /* ARViewContainer.swift */; };
 		71D0502327B727AC003A8EF6 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 71D0502227B727AC003A8EF6 /* Introspect */; };
+		71DEB70F27D7DF1C000D8421 /* ShareImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DEB70E27D7DF1C000D8421 /* ShareImagesView.swift */; };
 		71FBFD7327C6F65E00123CC1 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FBFD7227C6F65E00123CC1 /* Image+Extension.swift */; };
 		71FBFD7627C6F8B400123CC1 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = 71FBFD7527C6F8B400123CC1 /* CachedAsyncImage */; };
 /* End PBXBuildFile section */
@@ -52,6 +53,7 @@
 		712003BF27B3EFEB00148E9E /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		7196DA7227C2E0C300C17D50 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		71D0501F27B7195E003A8EF6 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
+		71DEB70E27D7DF1C000D8421 /* ShareImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareImagesView.swift; sourceTree = "<group>"; };
 		71FBFD7227C6F65E00123CC1 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				1C278C0627A170D4003FDED6 /* MainContentView.swift */,
+				71DEB70E27D7DF1C000D8421 /* ShareImagesView.swift */,
 				712003AE27B3DD0C00148E9E /* MainContentViewModel.swift */,
 				711A41AE27CAF2D000A08787 /* ModelPickerView.swift */,
 				711A41B027CAF98000A08787 /* PlacementButtonsView.swift */,
@@ -265,6 +268,7 @@
 				7196DA7327C2E0C300C17D50 /* String+Extensions.swift in Sources */,
 				711A41AF27CAF2D000A08787 /* ModelPickerView.swift in Sources */,
 				7110F40D27B412C9000168C5 /* MoralisServer.swift in Sources */,
+				71DEB70F27D7DF1C000D8421 /* ShareImagesView.swift in Sources */,
 				712003BE27B3E7A000148E9E /* ARgallery.swift in Sources */,
 				7110F40B27B412A3000168C5 /* MoralisApiAdapter.swift in Sources */,
 				711A41B127CAF98000A08787 /* PlacementButtonsView.swift in Sources */,
