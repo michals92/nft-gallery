@@ -12,13 +12,14 @@ struct PlacementButtonsView: View {
     @Binding var selectedModel: Collectible?
     @Binding var modelConfirmedForPlacement: Collectible?
     @Binding var isBox: Bool
+    @Binding var isAnimated: Bool
 
     var body: some View {
         HStack(spacing: 0) {
             Spacer()
             HStack(spacing: 0) {
                 Button(action: {
-                    print("add animation")
+                    isAnimated.toggle()
                 }, label: {
                     Image(systemName: "rotate.right")
                         .resizable()

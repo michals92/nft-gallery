@@ -10,6 +10,7 @@ import SwiftUI
 struct MainContentView: View {
     @ObservedObject private var viewModel = MainContentViewModel()
     @State private var isBox = false
+    @State private var isAnimated = false
     @State private var isFrontCamera = false
 
     var body: some View {
@@ -28,7 +29,7 @@ struct MainContentView: View {
                         PlacementButtonsView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                              selectedModel: $viewModel.selectedModel,
                                              modelConfirmedForPlacement: $viewModel.collectibleForPlacement,
-                                             isBox: $isBox)
+                                             isBox: $isBox, isAnimated: $isAnimated)
                     } else {
                         ModelPickerView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                         selectedModel: $viewModel.selectedModel,
