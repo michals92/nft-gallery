@@ -29,7 +29,8 @@ struct MainContentView: View {
                         PlacementButtonsView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                              selectedModel: $viewModel.selectedModel,
                                              modelConfirmedForPlacement: $viewModel.collectibleForPlacement,
-                                             isBox: $isBox, isAnimated: $isAnimated)
+                                             isBox: $isBox,
+                                             isAnimated: $isAnimated)
                     } else {
                         ModelPickerView(isPlacementEnabled: $viewModel.isPlacementEnabled,
                                         selectedModel: $viewModel.selectedModel,
@@ -42,8 +43,7 @@ struct MainContentView: View {
                 .overlay(
                     Rectangle()
                         .frame(width: .none, height: 0.5, alignment: .top)
-                        .foregroundColor(Color(uiColor: .ternaryTextColor))
-                    , alignment: .top)
+                        .foregroundColor(Color(uiColor: .ternaryTextColor)), alignment: .top)
             }
             .navigationBarHidden(true)
             .sheet(isPresented: $viewModel.takeSnapshot, onDismiss: {

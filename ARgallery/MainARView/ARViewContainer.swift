@@ -19,6 +19,8 @@ struct ARViewContainer: UIViewRepresentable {
     @Binding var takeSnapshot: Bool
     @Binding var imageToShare: UIImage?
 
+    let maximalSize = 0.5
+
     func makeUIView(context: Context) -> ARView {
 
         print("make")
@@ -51,48 +53,52 @@ struct ARViewContainer: UIViewRepresentable {
         }
     }
 
-    private func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
-    }
-
+    @MainActor
     private func downloadImage(from url: URL, view: ARView) {
-        getData(from: url) { data, response, error in
-            guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? url.lastPathComponent)
+        Task {
+            do {
+                let (data, _) = try await URLSession.shared.data(from: url)
 
-            DispatchQueue.main.async {
-                do {
-                    let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+                let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
 
-                    try data.write(to: fileURL)
-                    let texture = try TextureResource.load(contentsOf: fileURL)
-                    var material = SimpleMaterial()
-                    material.baseColor = MaterialColorParameter.texture(texture)
+                try data.write(to: fileURL)
 
-                    var modelEntity = ModelEntity(mesh: .generatePlane(width: 0.3, height: 0.3), materials: [material])
-
-                    if isBox {
-                        modelEntity = ModelEntity(mesh: .generateBox(size: 0.3), materials: [material])
-                    }
-
-                    if isFrontCamera {
-                        let anchorEntity = AnchorEntity(world: SIMD3(x: 0, y: 0, z: -2))
-                        anchorEntity.addChild(modelEntity)
-                        view.scene.addAnchor(anchorEntity)
-                        modelEntity.generateCollisionShapes(recursive: true)
-                        view.installGestures([.translation], for: modelEntity)
-                    } else {
-                        modelEntity.transform = Transform(pitch: -.pi/2, yaw: 0, roll: 0)
-                        let anchorEntity = AnchorEntity(plane: .any)
-                        anchorEntity.addChild(modelEntity.clone(recursive: true))
-                        view.scene.addAnchor(anchorEntity)
-                    }
-                    collectibleForPlacement = nil
-
-                } catch {
-                    print(error)
+                var imageRatio = CGSize(width: maximalSize, height: maximalSize)
+                if let image = UIImage(data: data) {
+                    let limitSize = max(image.size.width / maximalSize, image.size.height / maximalSize)
+                    imageRatio = CGSize(width: image.size.width / limitSize, height: image.size.height / limitSize)
                 }
+
+                let texture = try TextureResource.load(contentsOf: fileURL)
+                var material = SimpleMaterial()
+                material.color = .init(tint: .white, texture: MaterialParameters.Texture(texture))
+
+                print(imageRatio)
+
+                var meshResource = MeshResource.generatePlane(width: Float(imageRatio.width), height: Float(imageRatio.height))
+                if isBox {
+                    meshResource = .generateBox(width: Float(imageRatio.width), height: Float(imageRatio.height), depth: Float(imageRatio.height))
+                }
+
+                let modelEntity = ModelEntity(mesh: meshResource, materials: [material])
+
+                if isFrontCamera {
+                    let anchorEntity = AnchorEntity(world: SIMD3(x: 0, y: 0, z: -2))
+                    anchorEntity.addChild(modelEntity)
+
+                    view.scene.addAnchor(anchorEntity)
+                    modelEntity.generateCollisionShapes(recursive: true)
+                    view.installGestures([.translation], for: modelEntity)
+                } else {
+                    modelEntity.transform = Transform(pitch: -.pi/2, yaw: 0, roll: 0)
+                    let anchorEntity = AnchorEntity(plane: .any)
+                    anchorEntity.addChild(modelEntity.clone(recursive: true))
+                    view.scene.addAnchor(anchorEntity)
+                }
+            } catch {
+                print(error)
             }
+            collectibleForPlacement = nil
         }
     }
 }
@@ -117,7 +123,7 @@ class CustomARView: ARView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @MainActor @objc override required dynamic init(frame frameRect: CGRect) {
+    @MainActor @objc required dynamic init(frame frameRect: CGRect) {
         fatalError("init(frame:) has not been implemented")
     }
 

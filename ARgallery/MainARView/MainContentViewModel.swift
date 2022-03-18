@@ -28,13 +28,15 @@ final class MainContentViewModel: ObservableObject {
         moralisService.collectibles(address, chain: "eth", format: "decimal") { result in
             switch result {
             case .success(let collectibles):
-                self.collectibles = collectibles.result.filter({ collectible in
-                    let dict = collectible.metadata?.convertToDictionary()
-                    guard let image = dict?["image"] as? String else {
-                        return false
-                    }
-                    return collectible.name != nil && image.hasSuffix(".png")
-                })
+                DispatchQueue.main.async {
+                    self.collectibles = collectibles.result.filter({ collectible in
+                        let dict = collectible.metadata?.convertToDictionary()
+                        guard let image = dict?["image"] as? String else {
+                            return false
+                        }
+                        return collectible.name != nil && image.hasSuffix(".png")
+                    })
+                }
             case .failure(let error):
                 print(error)
             }
