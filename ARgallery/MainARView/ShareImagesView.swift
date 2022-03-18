@@ -9,11 +9,7 @@ import SwiftUI
 
 struct ShareImagesView: View {
     @State private var showShareSheet = false
-    var image: UIImage {
-        didSet {
-            
-        }
-    }
+    var image: UIImage
 
     var body: some View {
         NavigationView {

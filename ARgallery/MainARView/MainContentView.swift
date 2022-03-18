@@ -51,7 +51,14 @@ struct MainContentView: View {
                 viewModel.imageToShare = nil
             }, content: {
                 if let image = viewModel.imageToShare {
-                    ShareImagesView(image: image)
+
+                    let height = (image.size.width / 9) * 16
+                    let point = (image.size.height - height)/2
+
+                    if let croppedImage = image.crop(toRect: CGRect(x: 0, y: point, width: image.size.width, height: height)) {
+                        ShareImagesView(image: croppedImage)
+                            .padding(10)
+                    }
                 }
             })
         }
