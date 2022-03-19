@@ -14,6 +14,7 @@ struct ModelPickerView: View {
     @Binding var selectedModel: Collectible?
     @Binding var collectibles: [Collectible]
     @Binding var isFrontCamera: Bool
+    @Binding var removeObjects: Bool
 
     @State private var showingDetail = false
 
@@ -77,6 +78,17 @@ struct ModelPickerView: View {
                 .partialSheet(isPresented: $showingDetail, iPhoneStyle: iPhoneStyle, content: {
                     WalletView(viewModel: viewModel)
                 })
+                Button {
+                    print("empty")
+                } label: {
+                    Image(systemName: "")
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(.white)
+                        .padding(15)
+                        .scaledToFit()
+                }
+                .frame(width: 60, height: 60)
                 Spacer()
                 Button {
                     viewModel.takeSnapshot = true
@@ -85,17 +97,35 @@ struct ModelPickerView: View {
                 }
                 .frame(width: 70, height: 70)
                 Spacer()
-                Button {
-                    isFrontCamera.toggle()
-                } label: {
-                    Image(systemName: "arrow.triangle.2.circlepath.camera")
-                        .resizable()
-                        .renderingMode(.template)
-                        .foregroundColor(.white)
-                        .padding(15)
-                        .scaledToFit()
+                HStack {
+                    Button {
+                        isFrontCamera.toggle()
+                    } label: {
+                        Image(systemName: "arrow.triangle.2.circlepath.camera")
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundColor(.white)
+                            .padding(15)
+                            .scaledToFit()
+                    }
+                    .frame(width: 60, height: 60)
+                    Button {
+                        removeObjects = true
+                    } label: {
+                        VStack {
+                            Image(systemName: "trash")
+                                .resizable()
+                                .renderingMode(.template)
+                                .foregroundColor(.white)
+                                .padding(15)
+                                .scaledToFit()
+                        }
+                    }
+                    .frame(width: 60, height: 60)
+                    .partialSheet(isPresented: $showingDetail, iPhoneStyle: iPhoneStyle, content: {
+                        WalletView(viewModel: viewModel)
+                    })
                 }
-                .frame(width: 60, height: 60)
                 Spacer()
             }
             .frame(maxWidth: .infinity, alignment: .center)

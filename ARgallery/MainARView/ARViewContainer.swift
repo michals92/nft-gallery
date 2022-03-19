@@ -16,6 +16,7 @@ struct ARViewContainer: UIViewRepresentable {
     @Binding var collectibleForPlacement: Collectible?
     @Binding var isBox: Bool
     @Binding var isFrontCamera: Bool
+    @Binding var removeObjects: Bool
     @Binding var takeSnapshot: Bool
     @Binding var imageToShare: UIImage?
 
@@ -23,8 +24,7 @@ struct ARViewContainer: UIViewRepresentable {
 
     func makeUIView(context: Context) -> ARView {
 
-        print("make")
-        let arView = CustomARView(frame: .zero, isFrontCamera: isFrontCamera)
+        let arView = CustomARView(frame: .zero, isFrontCamera: isFrontCamera, removeObjects: removeObjects)
 
         #if !targetEnvironment(simulator)
         arView.addCoaching()
@@ -39,17 +39,16 @@ struct ARViewContainer: UIViewRepresentable {
         }
 
         if let customARView = uiView as? CustomARView {
-            if takeSnapshot && !customARView.isTakingImage && imageToShare == nil {
+            if takeSnapshot && imageToShare == nil {
                 customARView
                     .takeImage(true)
                     .snapshot(saveToHDR: false) { image in
                         imageToShare = image
-                        customARView.clearImage()
                     }
             }
 
             customARView.focusSquare.isEnabled = isPlacementEnabled
-            customARView.setupARView(isFrontCamera: isFrontCamera)
+            customARView.setupARView(isFrontCamera: isFrontCamera, removeObjects: removeObjects)
         }
     }
 
@@ -73,8 +72,6 @@ struct ARViewContainer: UIViewRepresentable {
                 var material = SimpleMaterial()
                 material.color = .init(tint: .white, texture: MaterialParameters.Texture(texture))
 
-                print(imageRatio)
-
                 var meshResource = MeshResource.generatePlane(width: Float(imageRatio.width), height: Float(imageRatio.height))
                 if isBox {
                     meshResource = .generateBox(width: Float(imageRatio.width), height: Float(imageRatio.height), depth: Float(imageRatio.height))
@@ -85,9 +82,9 @@ struct ARViewContainer: UIViewRepresentable {
                 if isFrontCamera {
                     let anchorEntity = AnchorEntity(world: SIMD3(x: 0, y: 0, z: -2))
                     anchorEntity.addChild(modelEntity)
-
                     view.scene.addAnchor(anchorEntity)
                     modelEntity.generateCollisionShapes(recursive: true)
+
                     view.installGestures([.translation], for: modelEntity)
                 } else {
                     modelEntity.transform = Transform(pitch: -.pi/2, yaw: 0, roll: 0)
@@ -105,18 +102,17 @@ struct ARViewContainer: UIViewRepresentable {
 
 class CustomARView: ARView {
     let focusSquare = FESquare()
-    var wasFrontCamera: Bool = false
+    var wasFrontCamera: Bool?
+    var removeObjects = false
 
-    var isTakingImage = false
-
-    required init(frame frameRect: CGRect, isFrontCamera: Bool) {
+    required init(frame frameRect: CGRect, isFrontCamera: Bool, removeObjects: Bool) {
 
         super.init(frame: frameRect)
 
         focusSquare.viewDelegate = self
         focusSquare.setAutoUpdate(to: true)
 
-        setupARView(isFrontCamera: isFrontCamera)
+        setupARView(isFrontCamera: isFrontCamera, removeObjects: removeObjects)
     }
 
     @objc required dynamic init?(coder decoder: NSCoder) {
@@ -127,15 +123,17 @@ class CustomARView: ARView {
         fatalError("init(frame:) has not been implemented")
     }
 
-    func setupARView(isFrontCamera: Bool) {
-        if isFrontCamera {
+    func setupARView(isFrontCamera: Bool, removeObjects: Bool) {
+
+        if isFrontCamera && (isFrontCamera != wasFrontCamera) {
             let configuration = ARFaceTrackingConfiguration()
             if #available(iOS 13.0, *) {
                 configuration.maximumNumberOfTrackedFaces = ARFaceTrackingConfiguration.supportedNumberOfTrackedFaces
             }
             configuration.isLightEstimationEnabled = true
             self.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-        } else {
+
+        } else if isFrontCamera != wasFrontCamera {
             let configuration = ARWorldTrackingConfiguration()
             configuration.planeDetection = [.horizontal, .vertical]
             configuration.environmentTexturing = .automatic
@@ -145,18 +143,19 @@ class CustomARView: ARView {
                 configuration.sceneReconstruction = .mesh
             }
 
-            if isFrontCamera == wasFrontCamera {
-                self.session.run(configuration)
-            } else {
-                self.session.run(configuration, options: [.removeExistingAnchors, .resetTracking])
-            }
+            self.session.run(configuration, options: [.removeExistingAnchors, .resetTracking])
+        }
+
+        if removeObjects {
+            removeAnchors()
         }
 
         wasFrontCamera = isFrontCamera
     }
 
-    func clearImage() {
-        isTakingImage = false
+    func removeAnchors() {
+        print("remove objects!")
+        removeObjects = false
     }
 
     func stopCamera() {
@@ -180,7 +179,6 @@ extension ARView: ARCoachingOverlayViewDelegate {
 extension CustomARView {
     func takeImage(_ bool: Bool) -> CustomARView {
         let view = self
-        view.isTakingImage = bool
         return view
     }
 }

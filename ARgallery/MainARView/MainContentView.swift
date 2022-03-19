@@ -12,6 +12,7 @@ struct MainContentView: View {
     @State private var isBox = false
     @State private var isAnimated = false
     @State private var isFrontCamera = false
+    @State private var removeObjects = false
 
     var body: some View {
         NavigationView {
@@ -20,6 +21,7 @@ struct MainContentView: View {
                                 collectibleForPlacement: $viewModel.collectibleForPlacement,
                                 isBox: $isBox,
                                 isFrontCamera: $isFrontCamera,
+                                removeObjects: $removeObjects,
                                 takeSnapshot: $viewModel.takeSnapshot,
                                 imageToShare: $viewModel.imageToShare)
                     .edgesIgnoringSafeArea(.all)
@@ -36,6 +38,7 @@ struct MainContentView: View {
                                         selectedModel: $viewModel.selectedModel,
                                         collectibles: $viewModel.collectibles,
                                         isFrontCamera: $isFrontCamera,
+                                        removeObjects: $removeObjects,
                                         viewModel: viewModel)
                     }
                 }
