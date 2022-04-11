@@ -20,10 +20,12 @@ struct ARViewContainer: UIViewRepresentable {
     @Binding var takeSnapshot: Bool
     @Binding var imageToShare: UIImage?
 
+    @State var entities: [AnchorEntity] = []
+
     let maximalSize = 0.3
 
     func makeUIView(context _: Context) -> ARView {
-        let arView = CustomARView(frame: .zero, isFrontCamera: isFrontCamera, removeObjects: removeObjects)
+        let arView = CustomARView(frame: .zero, isFrontCamera: isFrontCamera)
 
         #if !targetEnvironment(simulator)
             arView.addCoaching()
@@ -34,10 +36,17 @@ struct ARViewContainer: UIViewRepresentable {
 
     func updateUIView(_ uiView: ARView, context _: Context) {
         if let url = collectibleForPlacement?.getCollectibleURL() {
-            downloadImage(from: url, view: uiView)
+            addImageToScene(from: url, view: uiView)
         }
 
         if let customARView = uiView as? CustomARView {
+            if removeObjects {
+                for entity in entities {
+                    customARView.scene.removeAnchor(entity)
+                }
+                print("removed")
+            }
+
             if takeSnapshot, imageToShare == nil {
                 customARView
                     .takeImage(true)
@@ -47,14 +56,16 @@ struct ARViewContainer: UIViewRepresentable {
             }
 
             customARView.focusSquare.isEnabled = isPlacementEnabled
-            customARView.setupARView(isFrontCamera: isFrontCamera, removeObjects: removeObjects)
+            customARView.setupARView(isFrontCamera: isFrontCamera)
         }
     }
 
     @MainActor
-    private func downloadImage(from url: URL, view: ARView) {
+    private func addImageToScene(from url: URL, view: ARView) {
         Task {
             do {
+                removeObjects = false
+
                 let (data, _) = try await URLSession.shared.data(from: url)
 
                 let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -82,12 +93,14 @@ struct ARViewContainer: UIViewRepresentable {
                     let anchorEntity = AnchorEntity(world: SIMD3(x: 0, y: 0, z: -2))
                     anchorEntity.addChild(modelEntity)
                     view.scene.addAnchor(anchorEntity)
+                    entities.append(anchorEntity)
                     modelEntity.generateCollisionShapes(recursive: true)
 
                     view.installGestures([.translation], for: modelEntity)
                 } else {
                     modelEntity.transform = Transform(pitch: -.pi / 2, yaw: 0, roll: 0)
                     let anchorEntity = AnchorEntity(plane: .any)
+                    entities.append(anchorEntity)
                     anchorEntity.addChild(modelEntity.clone(recursive: true))
                     view.scene.addAnchor(anchorEntity)
                 }
@@ -102,15 +115,14 @@ struct ARViewContainer: UIViewRepresentable {
 class CustomARView: ARView {
     let focusSquare = FESquare()
     var wasFrontCamera: Bool?
-    var removeObjects = false
 
-    required init(frame frameRect: CGRect, isFrontCamera: Bool, removeObjects: Bool) {
+    required init(frame frameRect: CGRect, isFrontCamera: Bool) {
         super.init(frame: frameRect)
 
         focusSquare.viewDelegate = self
         focusSquare.setAutoUpdate(to: true)
 
-        setupARView(isFrontCamera: isFrontCamera, removeObjects: removeObjects)
+        setupARView(isFrontCamera: isFrontCamera)
     }
 
     @available(*, unavailable)
@@ -122,7 +134,7 @@ class CustomARView: ARView {
         fatalError("init(frame:) has not been implemented")
     }
 
-    func setupARView(isFrontCamera: Bool, removeObjects: Bool) {
+    func setupARView(isFrontCamera: Bool) {
         if isFrontCamera, isFrontCamera != wasFrontCamera {
             let configuration = ARFaceTrackingConfiguration()
             if #available(iOS 13.0, *) {
@@ -144,16 +156,7 @@ class CustomARView: ARView {
             session.run(configuration, options: [.removeExistingAnchors, .resetTracking])
         }
 
-        if removeObjects {
-            removeAnchors()
-        }
-
         wasFrontCamera = isFrontCamera
-    }
-
-    func removeAnchors() {
-        print("remove objects!")
-        removeObjects = false
     }
 
     func stopCamera() {}

@@ -81,7 +81,7 @@ struct ModelPickerView: View {
                 Button {
                     print("empty")
                 } label: {
-                    Image(systemName: "")
+                    Image("")
                         .resizable()
                         .renderingMode(.template)
                         .foregroundColor(.white)
