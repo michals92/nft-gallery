@@ -5,10 +5,10 @@
 //  Created by Michal Šimík on 09.02.2022.
 //
 
-import SwiftUI
-import Introspect
-import UIKit
 import CachedAsyncImage
+import Introspect
+import SwiftUI
+import UIKit
 
 struct WalletView: View {
     @ObservedObject var viewModel: MainContentViewModel

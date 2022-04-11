@@ -58,7 +58,7 @@ struct PlacementButtonsView: View {
                     .frame(width: 60, height: 60)
                     .cornerRadius(30)
             })
-                .frame(minWidth: 0, maxWidth: .infinity)
+            .frame(minWidth: 0, maxWidth: .infinity)
             Spacer()
             Button {
                 resetPlacementParameters()

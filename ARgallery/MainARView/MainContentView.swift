@@ -46,7 +46,8 @@ struct MainContentView: View {
                 .overlay(
                     Rectangle()
                         .frame(width: .none, height: 0.5, alignment: .top)
-                        .foregroundColor(Color(uiColor: .ternaryTextColor)), alignment: .top)
+                        .foregroundColor(Color(uiColor: .ternaryTextColor)), alignment: .top
+                )
             }
             .navigationBarHidden(true)
             .sheet(isPresented: $viewModel.takeSnapshot, onDismiss: {
@@ -54,9 +55,8 @@ struct MainContentView: View {
                 viewModel.imageToShare = nil
             }, content: {
                 if let image = viewModel.imageToShare {
-
                     let height = (image.size.width / 9) * 16
-                    let point = (image.size.height - height)/2
+                    let point = (image.size.height - height) / 2
 
                     if let croppedImage = image.crop(toRect: CGRect(x: 0, y: point, width: image.size.width, height: height)) {
                         ShareImagesView(image: croppedImage)
@@ -70,9 +70,9 @@ struct MainContentView: View {
 }
 
 #if DEBUG
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainContentView()
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            MainContentView()
+        }
     }
-}
 #endif

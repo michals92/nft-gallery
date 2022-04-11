@@ -5,9 +5,9 @@
 //  Created by Michal Šimík on 27.02.2022.
 //
 
-import SwiftUI
 import CachedAsyncImage
 import PartialSheet
+import SwiftUI
 
 struct ModelPickerView: View {
     @Binding var isPlacementEnabled: Bool

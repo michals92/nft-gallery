@@ -20,14 +20,13 @@ final class MoralisCollectiblesService: MoralisService {
     }
 
     func collectibles(_ address: String, chain: String = "eth", format: String = "decimal", completion: @escaping (Result<Collectibles, APIErrorStandard>) -> Void) {
-
         let endpoint = MoralisNftEndpoint(chain: chain, format: format, address: address)
 
         apiAdapter.call(response: endpoint) { result in
             switch result {
-            case .success(let response):
+            case let .success(response):
                 completion(.success(response))
-            case .failure(let error):
+            case let .failure(error):
                 completion(.failure(error))
             }
         }

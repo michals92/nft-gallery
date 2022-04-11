@@ -24,10 +24,10 @@ struct ShareImagesView: View {
                     LinearGradient(gradient: Gradient(colors: [Color(hex: 0xC9123E), Color(hex: 0xCB2BAB)]),
                                    startPoint: .topLeading,
                                    endPoint: .bottomTrailing)
-                    .mask(
-                        Text("SHARE")
-                            .font(.system(size: 13, weight: .semibold))
-                    )
+                        .mask(
+                            Text("SHARE")
+                                .font(.system(size: 13, weight: .semibold))
+                        )
                 }
                 .frame(width: 90, height: 30)
                 .background(Color(uiColor: .secondaryTextColor))

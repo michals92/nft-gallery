@@ -11,7 +11,6 @@ import FTAPIKit
 protocol ApiAdapter {
     func call<EP: ResponseEndpoint>(response endpoint: EP, completion: @escaping (Result<EP.Response, APIErrorStandard>) -> Void)
     func call(endpoint: Endpoint, completion: @escaping (Result<Void, APIErrorStandard>) -> Void)
-   // func callImage(endpoint: Endpoint, completion: @escaping (Result<Data, APIErrorStandard>) -> Void)
 }
 
 final class MoralisApiAdapter: ApiAdapter {

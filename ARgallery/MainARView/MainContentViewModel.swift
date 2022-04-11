@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import UIKit
 import RealityKit
+import UIKit
 
 final class MainContentViewModel: ObservableObject {
     @Published var isPlacementEnabled = false
@@ -16,8 +16,8 @@ final class MainContentViewModel: ObservableObject {
 
     @Published var hasWallet = false
     @Published var collectibles: [Collectible] = []
-    @Published var address = UserDefaults.standard.string(forKey: "address")  ?? ""
-    @Published var tempAddress = UserDefaults.standard.string(forKey: "address")  ?? ""
+    @Published var address = UserDefaults.standard.string(forKey: "address") ?? ""
+    @Published var tempAddress = UserDefaults.standard.string(forKey: "address") ?? ""
 
     @Published var takeSnapshot = false
     @Published var imageToShare: UIImage?
@@ -27,17 +27,17 @@ final class MainContentViewModel: ObservableObject {
 
         moralisService.collectibles(address, chain: "eth", format: "decimal") { result in
             switch result {
-            case .success(let collectibles):
+            case let .success(collectibles):
                 DispatchQueue.main.async {
-                    self.collectibles = collectibles.result.filter({ collectible in
+                    self.collectibles = collectibles.result.filter { collectible in
                         let dict = collectible.metadata?.convertToDictionary()
                         guard let image = dict?["image"] as? String else {
                             return false
                         }
                         return collectible.name != nil && image.hasSuffix(".png")
-                    })
+                    }
                 }
-            case .failure(let error):
+            case let .failure(error):
                 print(error)
             }
         }

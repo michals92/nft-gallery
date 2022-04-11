@@ -13,7 +13,7 @@ struct MoralisServer: URLServer {
     let urlSession = URLSession(configuration: .default)
 
     let decoding: Decoding = JSONDecoding { decoder in
-           decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
 
     let encoding: Encoding = JSONEncoding { encoder in

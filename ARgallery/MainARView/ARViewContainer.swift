@@ -5,11 +5,11 @@
 //  Created by Michal Šimík on 11.02.2022.
 //
 
-import UIKit
-import SwiftUI
+import ARKit
 import FocusEntity
 import RealityKit
-import ARKit
+import SwiftUI
+import UIKit
 
 struct ARViewContainer: UIViewRepresentable {
     @Binding var isPlacementEnabled: Bool
@@ -22,24 +22,23 @@ struct ARViewContainer: UIViewRepresentable {
 
     let maximalSize = 0.5
 
-    func makeUIView(context: Context) -> ARView {
-
+    func makeUIView(context _: Context) -> ARView {
         let arView = CustomARView(frame: .zero, isFrontCamera: isFrontCamera, removeObjects: removeObjects)
 
         #if !targetEnvironment(simulator)
-        arView.addCoaching()
+            arView.addCoaching()
         #endif
 
         return arView
     }
 
-    func updateUIView(_ uiView: ARView, context: Context) {
+    func updateUIView(_ uiView: ARView, context _: Context) {
         if let url = collectibleForPlacement?.getCollectibleURL() {
-                downloadImage(from: url, view: uiView)
+            downloadImage(from: url, view: uiView)
         }
 
         if let customARView = uiView as? CustomARView {
-            if takeSnapshot && imageToShare == nil {
+            if takeSnapshot, imageToShare == nil {
                 customARView
                     .takeImage(true)
                     .snapshot(saveToHDR: false) { image in
@@ -87,7 +86,7 @@ struct ARViewContainer: UIViewRepresentable {
 
                     view.installGestures([.translation], for: modelEntity)
                 } else {
-                    modelEntity.transform = Transform(pitch: -.pi/2, yaw: 0, roll: 0)
+                    modelEntity.transform = Transform(pitch: -.pi / 2, yaw: 0, roll: 0)
                     let anchorEntity = AnchorEntity(plane: .any)
                     anchorEntity.addChild(modelEntity.clone(recursive: true))
                     view.scene.addAnchor(anchorEntity)
@@ -106,7 +105,6 @@ class CustomARView: ARView {
     var removeObjects = false
 
     required init(frame frameRect: CGRect, isFrontCamera: Bool, removeObjects: Bool) {
-
         super.init(frame: frameRect)
 
         focusSquare.viewDelegate = self
@@ -115,23 +113,23 @@ class CustomARView: ARView {
         setupARView(isFrontCamera: isFrontCamera, removeObjects: removeObjects)
     }
 
-    @objc required dynamic init?(coder decoder: NSCoder) {
+    @available(*, unavailable)
+    @objc dynamic required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @MainActor @objc required dynamic init(frame frameRect: CGRect) {
+    @MainActor @objc dynamic required init(frame _: CGRect) {
         fatalError("init(frame:) has not been implemented")
     }
 
     func setupARView(isFrontCamera: Bool, removeObjects: Bool) {
-
-        if isFrontCamera && (isFrontCamera != wasFrontCamera) {
+        if isFrontCamera, isFrontCamera != wasFrontCamera {
             let configuration = ARFaceTrackingConfiguration()
             if #available(iOS 13.0, *) {
                 configuration.maximumNumberOfTrackedFaces = ARFaceTrackingConfiguration.supportedNumberOfTrackedFaces
             }
             configuration.isLightEstimationEnabled = true
-            self.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+            session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
 
         } else if isFrontCamera != wasFrontCamera {
             let configuration = ARWorldTrackingConfiguration()
@@ -143,7 +141,7 @@ class CustomARView: ARView {
                 configuration.sceneReconstruction = .mesh
             }
 
-            self.session.run(configuration, options: [.removeExistingAnchors, .resetTracking])
+            session.run(configuration, options: [.removeExistingAnchors, .resetTracking])
         }
 
         if removeObjects {
@@ -158,9 +156,7 @@ class CustomARView: ARView {
         removeObjects = false
     }
 
-    func stopCamera() {
-
-    }
+    func stopCamera() {}
 }
 
 extension ARView: ARCoachingOverlayViewDelegate {
@@ -168,16 +164,16 @@ extension ARView: ARCoachingOverlayViewDelegate {
         let coachingOverlay = ARCoachingOverlayView()
         coachingOverlay.delegate = self
         #if !targetEnvironment(simulator)
-        coachingOverlay.session = self.session
+            coachingOverlay.session = session
         #endif
         coachingOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         coachingOverlay.goal = .tracking
-        self.addSubview(coachingOverlay)
+        addSubview(coachingOverlay)
     }
 }
 
 extension CustomARView {
-    func takeImage(_ bool: Bool) -> CustomARView {
+    func takeImage(_: Bool) -> CustomARView {
         let view = self
         return view
     }

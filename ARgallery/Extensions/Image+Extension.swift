@@ -8,12 +8,12 @@
 import SwiftUI
 
 extension URLCache {
-    static let imageCache = URLCache(memoryCapacity: 512*1000*1000, diskCapacity: 10*1000*1000*1000)
+    static let imageCache = URLCache(memoryCapacity: 512 * 1000 * 1000, diskCapacity: 10 * 1000 * 1000 * 1000)
 }
 
 extension UIImage {
     func crop(toRect rect: CGRect) -> UIImage? {
-        guard let imageRef: CGImage = self.cgImage?.cropping(to: rect) else {
+        guard let imageRef: CGImage = cgImage?.cropping(to: rect) else {
             return nil
         }
         return UIImage(cgImage: imageRef)
