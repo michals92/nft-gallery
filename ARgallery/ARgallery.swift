@@ -7,9 +7,15 @@
 
 import PartialSheet
 import SwiftUI
+import Firebase
 
 @main
 struct ModelPicker: App {
+
+    init() {
+        FirebaseApp.configure()
+    }
+
     var body: some Scene {
         WindowGroup {
             MainContentView()
