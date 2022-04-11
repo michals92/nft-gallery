@@ -34,7 +34,7 @@ final class MainContentViewModel: ObservableObject {
                         guard let image = dict?["image"] as? String else {
                             return false
                         }
-                        return collectible.name != nil && image.hasSuffix(".png")
+                        return image.hasSuffix(".png") || image.hasSuffix(".jpg")
                     }
                 }
             case let .failure(error):

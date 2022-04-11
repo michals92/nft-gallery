@@ -22,7 +22,9 @@ struct Collectible: Codable, Hashable {
     func getCollectibleURL() -> URL? {
         let dict = metadata?.convertToDictionary()
         let urlString = dict?["image"] as? String
-        let urlStringWithoutIpfs = urlString?.replacingOccurrences(of: "ipfs://", with: "https://cloudflare-ipfs.com/ipfs/")
+        var urlStringWithoutIpfs = urlString?.replacingOccurrences(of: "ipfs://", with: "https://cloudflare-ipfs.com/ipfs/")
+        urlStringWithoutIpfs = urlStringWithoutIpfs?.replacingOccurrences(of: "ipfs/ipfs/", with: "ipfs/")
+
         return URL(string: urlStringWithoutIpfs ?? "")
     }
 }
