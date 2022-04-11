@@ -20,7 +20,7 @@ struct ARViewContainer: UIViewRepresentable {
     @Binding var takeSnapshot: Bool
     @Binding var imageToShare: UIImage?
 
-    let maximalSize = 0.5
+    let maximalSize = 0.3
 
     func makeUIView(context _: Context) -> ARView {
         let arView = CustomARView(frame: .zero, isFrontCamera: isFrontCamera, removeObjects: removeObjects)

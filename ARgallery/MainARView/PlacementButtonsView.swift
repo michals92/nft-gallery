@@ -20,7 +20,7 @@ struct PlacementButtonsView: View {
                 isBox.toggle()
             }, label: {
                 Label {
-                    Text(isBox ? "3D BOX" : "FLAT")
+                    Text(isBox ? "3D BOX" : "POSTER")
                 } icon: {
                     Image(systemName: "square.on.circle")
                 }.foregroundColor(.white)
