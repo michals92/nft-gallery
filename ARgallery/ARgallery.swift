@@ -25,7 +25,7 @@ struct ModelPicker: App, RouterProtocol {
         WindowGroup {
             switch route {
             case .main:
-                MainContentView().attachPartialSheetToRoot()
+                MainContentView(router: self).attachPartialSheetToRoot()
             case .onboarding:
                 OnboardingView(router: self)
             }

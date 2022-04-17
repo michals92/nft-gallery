@@ -23,29 +23,35 @@ final class MainContentViewModel: ObservableObject {
     @Published var imageToShare: UIImage?
 
     let moralisService: MoralisService
+    let router: RouterProtocol
 
-    init() {
+    init(router: RouterProtocol) {
+        self.router = router
         moralisService = MoralisCollectiblesService(apiAdapter: MoralisApiAdapter())
         address = moralisService.walletAddress ?? ""
         tempAddress = moralisService.walletAddress ?? ""
     }
 
     func getCollectibles() {
-
-        moralisService.collectibles() { result in
-            switch result {
-            case let .success(collectibles):
-                DispatchQueue.main.async {
-                    self.collectibles = collectibles.result.filter { collectible in
-                        let dict = collectible.metadata?.convertToDictionary()
-                        guard let image = dict?["image"] as? String else {
-                            return false
+        if moralisService.walletAddress == nil {
+            // TODO: add assets for collectibles
+            self.collectibles = [Collectible(tokenAddress: "address", tokenId: "tokenId", name: "test", tokenUri: "uri", metadata: "{                                       \"image\": \"https://d32-a.sdn.cz/d_32/c_static_QN_Q/FxUBTO/media/img/zodiac/7.png\"}")]
+        } else {
+            moralisService.collectibles() { result in
+                switch result {
+                case let .success(collectibles):
+                    DispatchQueue.main.async {
+                        self.collectibles = collectibles.result.filter { collectible in
+                            let dict = collectible.metadata?.convertToDictionary()
+                            guard let image = dict?["image"] as? String else {
+                                return false
+                            }
+                            return image.hasSuffix(".png") || image.hasSuffix(".jpg")
                         }
-                        return image.hasSuffix(".png") || image.hasSuffix(".jpg")
                     }
+                case let .failure(error):
+                    print(error)
                 }
-            case let .failure(error):
-                print(error)
             }
         }
     }

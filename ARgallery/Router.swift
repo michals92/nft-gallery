@@ -15,3 +15,9 @@ enum BasicRoute: String {
 protocol RouterProtocol {
     func presentRoute(_ route: BasicRoute)
 }
+
+class MockRouter: RouterProtocol {
+    func presentRoute(_ route: BasicRoute) {
+
+    }
+}

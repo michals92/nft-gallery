@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct MainContentView: View {
-    @ObservedObject private var viewModel = MainContentViewModel()
+    @ObservedObject private var viewModel: MainContentViewModel
     @State private var isBox = false
     @State private var isFrontCamera = false
     @State private var removeObjects = false
+
+    init(router: RouterProtocol) {
+        self.viewModel = MainContentViewModel(router: router)
+    }
 
     var body: some View {
         NavigationView {
@@ -70,7 +74,7 @@ struct MainContentView: View {
 #if DEBUG
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {
-            MainContentView()
+            MainContentView(router: MockRouter())
         }
     }
 #endif

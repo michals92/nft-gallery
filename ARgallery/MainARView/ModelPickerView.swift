@@ -63,7 +63,13 @@ struct ModelPickerView: View {
             HStack {
                 Spacer()
                 Button {
-                    showingDetail = true
+                    if viewModel.moralisService.walletAddress != nil {
+                        showingDetail = true
+                    } else {
+                        let route = BasicRoute.onboarding
+                        UserDefaults.standard.set(route.rawValue, forKey: "current-route")
+                        viewModel.router.presentRoute(route)
+                    }
                 } label: {
                     VStack {
                         Image(systemName: "gear")
