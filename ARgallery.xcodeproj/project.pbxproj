@@ -27,6 +27,8 @@
 		712003C027B3EFEB00148E9E /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712003BF27B3EFEB00148E9E /* WalletView.swift */; };
 		713DC0CD27E4C0B500B5B5A2 /* ShareDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713DC0CC27E4C0B500B5B5A2 /* ShareDialog.swift */; };
 		714E66EB27D7874800FC32B6 /* PartialSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 714E66EA27D7874800FC32B6 /* PartialSheet */; };
+		715ECEE3280C2D9900F2F75B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715ECEE2280C2D9900F2F75B /* OnboardingView.swift */; };
+		715ECEE5280CC1D800F2F75B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715ECEE4280CC1D800F2F75B /* Router.swift */; };
 		718BFE3A2804D03200374846 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 718BFE392804D03200374846 /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		718BFE3C2804D03200374846 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 718BFE3B2804D03200374846 /* FirebaseCrashlytics */; };
 		7196DA7327C2E0C300C17D50 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7196DA7227C2E0C300C17D50 /* String+Extensions.swift */; };
@@ -57,6 +59,8 @@
 		712003BD27B3E7A000148E9E /* ARgallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARgallery.swift; sourceTree = "<group>"; };
 		712003BF27B3EFEB00148E9E /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		713DC0CC27E4C0B500B5B5A2 /* ShareDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareDialog.swift; sourceTree = "<group>"; };
+		715ECEE2280C2D9900F2F75B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		715ECEE4280CC1D800F2F75B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		7196DA7227C2E0C300C17D50 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		71D0501F27B7195E003A8EF6 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
 		71DEB70E27D7DF1C000D8421 /* ShareImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareImagesView.swift; sourceTree = "<group>"; };
@@ -103,6 +107,8 @@
 				711A41B427CAFE6B00A08787 /* Info.plist */,
 				710CE2332804CF08008E5E08 /* GoogleService-Info.plist */,
 				712003BD27B3E7A000148E9E /* ARgallery.swift */,
+				715ECEE4280CC1D800F2F75B /* Router.swift */,
+				715ECEE1280C2D7D00F2F75B /* Onboarding */,
 				71D0501C27B710BE003A8EF6 /* MainARView */,
 				711D2D3A27B81934001FE3D3 /* WalletScene */,
 				7110F40E27B5B1C1000168C5 /* Collectibles.swift */,
@@ -141,6 +147,14 @@
 				711D2D3B27B81944001FE3D3 /* WalletViewModel.swift */,
 			);
 			path = WalletScene;
+			sourceTree = "<group>";
+		};
+		715ECEE1280C2D7D00F2F75B /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				715ECEE2280C2D9900F2F75B /* OnboardingView.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		7196DA7427C2E0CE00C17D50 /* Extensions */ = {
@@ -281,8 +295,10 @@
 				1C278C0727A170D4003FDED6 /* MainContentView.swift in Sources */,
 				7196DA7327C2E0C300C17D50 /* String+Extensions.swift in Sources */,
 				711A41AF27CAF2D000A08787 /* ModelPickerView.swift in Sources */,
+				715ECEE3280C2D9900F2F75B /* OnboardingView.swift in Sources */,
 				7110F40D27B412C9000168C5 /* MoralisServer.swift in Sources */,
 				71DEB70F27D7DF1C000D8421 /* ShareImagesView.swift in Sources */,
+				715ECEE5280CC1D800F2F75B /* Router.swift in Sources */,
 				713DC0CD27E4C0B500B5B5A2 /* ShareDialog.swift in Sources */,
 				712003BE27B3E7A000148E9E /* ARgallery.swift in Sources */,
 				7110F40B27B412A3000168C5 /* MoralisApiAdapter.swift in Sources */,

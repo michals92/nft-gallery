@@ -43,6 +43,7 @@ struct WalletView: View {
                         .onChange(of: viewModel.tempAddress) { value in
                             // TODO: - fetch number of nfts
                             print(value)
+                            print(viewModel.collectibles.count)
                         }
                         .focused($focusedField, equals: .field)
                         .padding()

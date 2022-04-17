@@ -10,16 +10,29 @@ import SwiftUI
 import Firebase
 
 @main
-struct ModelPicker: App {
+struct ModelPicker: App, RouterProtocol {
+
+    @State var route: BasicRoute
 
     init() {
         FirebaseApp.configure()
+
+        let route = BasicRoute(rawValue: UserDefaults.standard.string(forKey: "current-route") ?? "onboarding") ?? .onboarding
+        self.route = route
     }
 
     var body: some Scene {
         WindowGroup {
-            MainContentView()
-                .attachPartialSheetToRoot()
+            switch route {
+            case .main:
+                MainContentView().attachPartialSheetToRoot()
+            case .onboarding:
+                OnboardingView(router: self)
+            }
         }
+    }
+
+    func presentRoute(_ route: BasicRoute) {
+        self.route = route
     }
 }

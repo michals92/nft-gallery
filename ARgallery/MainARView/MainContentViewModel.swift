@@ -16,16 +16,23 @@ final class MainContentViewModel: ObservableObject {
 
     @Published var hasWallet = false
     @Published var collectibles: [Collectible] = []
-    @Published var address = UserDefaults.standard.string(forKey: "address") ?? ""
-    @Published var tempAddress = UserDefaults.standard.string(forKey: "address") ?? ""
+    @Published var address: String
+    @Published var tempAddress: String
 
     @Published var takeSnapshot = false
     @Published var imageToShare: UIImage?
 
-    func getCollectibles() {
-        let moralisService = MoralisCollectiblesService(apiAdapter: MoralisApiAdapter())
+    let moralisService: MoralisService
 
-        moralisService.collectibles(address, chain: "eth", format: "decimal") { result in
+    init() {
+        moralisService = MoralisCollectiblesService(apiAdapter: MoralisApiAdapter())
+        address = moralisService.walletAddress ?? ""
+        tempAddress = moralisService.walletAddress ?? ""
+    }
+
+    func getCollectibles() {
+
+        moralisService.collectibles() { result in
             switch result {
             case let .success(collectibles):
                 DispatchQueue.main.async {
@@ -45,7 +52,7 @@ final class MainContentViewModel: ObservableObject {
 
     func saveAddress() {
         address = tempAddress
-        UserDefaults.standard.set(address, forKey: "address")
+        moralisService.setWalletAddress(address)
         getCollectibles()
     }
 }
